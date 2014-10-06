@@ -27,8 +27,8 @@
 //
 // NYILATKOZAT
 // ---------------------------------------------------------------------------------------------
-// Nev    : <VEZETEKNEV(EK)> <KERESZTNEV(EK)>
-// Neptun : <NEPTUN KOD>
+// Nev    : Széll András
+// Neptun : DP1FGW
 // ---------------------------------------------------------------------------------------------
 // ezennel kijelentem, hogy a feladatot magam keszitettem, es ha barmilyen segitseget igenybe vettem vagy
 // mas szellemi termeket felhasznaltam, akkor a forrast es az atvett reszt kommentekben egyertelmuen jeloltem.
@@ -65,6 +65,8 @@
 //--------------------------------------------------------
 // 3D Vektor
 //--------------------------------------------------------
+#include <vector>
+
 struct Vector {
     float x, y, z;
     
@@ -88,6 +90,12 @@ struct Vector {
     }
     Vector operator%(const Vector& v) { 	// cross product
         return Vector(y*v.z-z*v.y, z*v.x - x*v.z, x*v.y - y*v.x);
+    }
+    Vector operator+=(const Vector& v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        return *this;
     }
     float Length() { return sqrt(x * x + y * y + z * z); }
 };
@@ -114,6 +122,29 @@ struct Color {
         return Color(r + c.r, g + c.g, b + c.b);
     }
 };
+
+//--------------------------------------------------------
+// Brezier gorbe
+//--------------------------------------------------------
+//class BezierCurve {
+//    std::vector<Vector> cps;	// control points
+//    
+//    float B(int i, float t) {
+//        int n = p.size()-1; // n deg polynomial = n+1 pts!
+//        float choose = 1;
+//        for(int j = 1; j <= i; j++) choose *= (float)(n-j+1)/j;
+//        return choose * pow(t, i) * pow(1-t, np-i);
+//    }
+//public:
+//    void AddControlPoint(Vector cp) { cps.push_back(cp); }
+//    
+//    Vector r(float t) {
+//        Vector rr(0, 0);
+//        for(int i = 0; i < cps.size(); i++)
+//            rr += cps[i] * B(i,t);
+//        return rr;
+//    }
+//};
 
 const int screenWidth = 600;	// alkalmazás ablak felbontása
 const int screenHeight = 600;
