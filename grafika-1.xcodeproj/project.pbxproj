@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49C3D45E19E3368E00062C4B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49C3D45D19E3368E00062C4B /* main.cpp */; };
+		49C3D45E19E3368E00062C4B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49C3D45D19E3368E00062C4B /* main.cpp */; settings = {COMPILER_FLAGS = "-Wno-deprecated"; }; };
 		49C3D46519E3375F00062C4B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C3D46419E3375F00062C4B /* GLUT.framework */; };
 		49C3D46719E3377A00062C4B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C3D46619E3377A00062C4B /* OpenGL.framework */; };
 /* End PBXBuildFile section */
