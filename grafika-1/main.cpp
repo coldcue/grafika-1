@@ -6,7 +6,7 @@
 // Tilos:
 // - mast "beincludolni", illetve mas konyvtarat hasznalni
 // - faljmuveleteket vegezni (printf is fajlmuvelet!)
-// - new operatort hivni az onInitialization f√ºggv√©nyt kiv√©ve, a lefoglalt adat korrekt felszabad√≠t√°sa n√©lk√ºl
+// - new operatort hivni az onInitialization f¸ggvÈnyt kivÈve, a lefoglalt adat korrekt felszabadÌt·sa nÈlk¸l
 // - felesleges programsorokat a beadott programban hagyni
 // - tovabbi kommenteket a beadott programba irni a forrasmegjelolest kommentjeit kiveve
 // ---------------------------------------------------------------------------------------------
@@ -115,11 +115,11 @@ struct Color {
     }
 };
 
-const int screenWidth = 600;	// alkalmaz√°s ablak felbont√°sa
+const int screenWidth = 600;	// alkalmaz·s ablak felbont·sa
 const int screenHeight = 600;
 
 
-Color image[screenWidth*screenHeight];	// egy alkalmaz√°s ablaknyi k√©p
+Color image[screenWidth*screenHeight];	// egy alkalmaz·s ablaknyi kÈp
 
 
 // Inicializacio, a program futasanak kezdeten, az OpenGL kontextus letrehozasa utan hivodik meg (ld. main() fv.)

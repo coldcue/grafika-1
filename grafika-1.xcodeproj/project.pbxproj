@@ -26,7 +26,7 @@
 
 /* Begin PBXFileReference section */
 		49C3D45A19E3368E00062C4B /* grafika-1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "grafika-1"; sourceTree = BUILT_PRODUCTS_DIR; };
-		49C3D45D19E3368E00062C4B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		49C3D45D19E3368E00062C4B /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 9; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		49C3D46419E3375F00062C4B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		49C3D46619E3377A00062C4B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
