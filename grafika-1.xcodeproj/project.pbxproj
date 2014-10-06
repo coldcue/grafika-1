@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		49C3D45E19E3368E00062C4B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49C3D45D19E3368E00062C4B /* main.cpp */; };
+		49C3D46519E3375F00062C4B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C3D46419E3375F00062C4B /* GLUT.framework */; };
+		49C3D46719E3377A00062C4B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C3D46619E3377A00062C4B /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,8 @@
 /* Begin PBXFileReference section */
 		49C3D45A19E3368E00062C4B /* grafika-1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "grafika-1"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C3D45D19E3368E00062C4B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		49C3D46419E3375F00062C4B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		49C3D46619E3377A00062C4B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +36,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49C3D46719E3377A00062C4B /* OpenGL.framework in Frameworks */,
+				49C3D46519E3375F00062C4B /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +47,8 @@
 		49C3D45119E3368E00062C4B = {
 			isa = PBXGroup;
 			children = (
+				49C3D46619E3377A00062C4B /* OpenGL.framework */,
+				49C3D46419E3375F00062C4B /* GLUT.framework */,
 				49C3D45C19E3368E00062C4B /* grafika-1 */,
 				49C3D45B19E3368E00062C4B /* Products */,
 			);
