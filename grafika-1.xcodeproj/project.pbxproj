@@ -7,12 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4902716A19E4269400F4B227 /* imps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4902716919E4269400F4B227 /* imps.cpp */; };
+		4902717919E4398F00F4B227 /* imps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4902716919E4269400F4B227 /* imps.cpp */; };
+		4902717C19E439CB00F4B227 /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4902717A19E439C000F4B227 /* tests.cpp */; };
 		49C3D45E19E3368E00062C4B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49C3D45D19E3368E00062C4B /* main.cpp */; settings = {COMPILER_FLAGS = "-Wno-deprecated"; }; };
 		49C3D46519E3375F00062C4B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C3D46419E3375F00062C4B /* GLUT.framework */; };
 		49C3D46719E3377A00062C4B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C3D46619E3377A00062C4B /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4902717719E4395B00F4B227 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49C3D45219E3368E00062C4B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4902716E19E4392600F4B227;
+			remoteInfo = UnitTests;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		4902716D19E4392600F4B227 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		49C3D45819E3368E00062C4B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -25,13 +47,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4902716919E4269400F4B227 /* imps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imps.cpp; sourceTree = "<group>"; };
+		4902716F19E4392600F4B227 /* UnitTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = UnitTests; sourceTree = BUILT_PRODUCTS_DIR; };
+		4902717A19E439C000F4B227 /* tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
 		49C3D45A19E3368E00062C4B /* grafika-1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "grafika-1"; sourceTree = BUILT_PRODUCTS_DIR; };
-		49C3D45D19E3368E00062C4B /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 9; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		49C3D45D19E3368E00062C4B /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		49C3D46419E3375F00062C4B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		49C3D46619E3377A00062C4B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4902716C19E4392600F4B227 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		49C3D45719E3368E00062C4B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -58,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				49C3D45A19E3368E00062C4B /* grafika-1 */,
+				4902716F19E4392600F4B227 /* UnitTests */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,6 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				49C3D45D19E3368E00062C4B /* main.cpp */,
+				4902716919E4269400F4B227 /* imps.cpp */,
+				4902717A19E439C000F4B227 /* tests.cpp */,
 			);
 			path = "grafika-1";
 			sourceTree = "<group>";
@@ -73,6 +108,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4902716E19E4392600F4B227 /* UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4902717319E4392600F4B227 /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildPhases = (
+				4902716B19E4392600F4B227 /* Sources */,
+				4902716C19E4392600F4B227 /* Frameworks */,
+				4902716D19E4392600F4B227 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UnitTests;
+			productName = UnitTests;
+			productReference = 4902716F19E4392600F4B227 /* UnitTests */;
+			productType = "com.apple.product-type.tool";
+		};
 		49C3D45919E3368E00062C4B /* grafika-1 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 49C3D46119E3368E00062C4B /* Build configuration list for PBXNativeTarget "grafika-1" */;
@@ -84,6 +136,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4902717819E4395B00F4B227 /* PBXTargetDependency */,
 			);
 			name = "grafika-1";
 			productName = "grafika-1";
@@ -99,6 +152,9 @@
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Andras Szell";
 				TargetAttributes = {
+					4902716E19E4392600F4B227 = {
+						CreatedOnToolsVersion = 6.0.1;
+					};
 					49C3D45919E3368E00062C4B = {
 						CreatedOnToolsVersion = 6.0.1;
 					};
@@ -117,22 +173,59 @@
 			projectRoot = "";
 			targets = (
 				49C3D45919E3368E00062C4B /* grafika-1 */,
+				4902716E19E4392600F4B227 /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4902716B19E4392600F4B227 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4902717C19E439CB00F4B227 /* tests.cpp in Sources */,
+				4902717919E4398F00F4B227 /* imps.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		49C3D45619E3368E00062C4B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4902716A19E4269400F4B227 /* imps.cpp in Sources */,
 				49C3D45E19E3368E00062C4B /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4902717819E4395B00F4B227 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4902716E19E4392600F4B227 /* UnitTests */;
+			targetProxy = 4902717719E4395B00F4B227 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		4902717419E4392600F4B227 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4902717519E4392600F4B227 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		49C3D45F19E3368E00062C4B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -224,6 +317,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4902717319E4392600F4B227 /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4902717419E4392600F4B227 /* Debug */,
+				4902717519E4392600F4B227 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		49C3D45519E3368E00062C4B /* Build configuration list for PBXProject "grafika-1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -240,6 +341,7 @@
 				49C3D46319E3368E00062C4B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
