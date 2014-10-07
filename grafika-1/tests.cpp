@@ -126,7 +126,7 @@ void testBrezierCurve(ControllPoints& cp) {
     assert(bc.nCk(3, 3) == 1);
     assert(bc.nCk(3, 4) == 0);
     
-    cout<<"b ";
+    cout<<endl<<"B calculation tests "<<endl;
     for(int it = 0; it<=10; it++){
         float t = (float)it/10.0;
         cout<<"t="<<t<<" ->";
@@ -139,6 +139,14 @@ void testBrezierCurve(ControllPoints& cp) {
         }
         cout <<" ";
         assertFloat(sum, 1);
+    }
+    
+    cout<<endl<<"r calculation tests "<<endl;
+    for(int it = 0; it<=10; it++){
+        float t = (float)it/10.0;
+        cout<<"t="<<t<<" -> ";
+        Vector2D r = bc.r(t);
+        cout<<"("<<r.x<<";"<<r.y<<")"<<endl;
     }
 
 }

@@ -80,6 +80,10 @@ struct Point2D {
     Vector2D operator-(const Point2D& p) {
         return Vector2D(x-p.x, y-p.y);
     }
+    
+    Vector2D vectorFromOrigo(){
+        return Vector2D(x,y);
+    }
 };
 
 //--------------------------------------------------------
@@ -145,7 +149,7 @@ class BrezierCurve : Curve {
         if (k == 0) return 1;
         
         int temp = n;
-        for( int i = 2; i <= k; ++i ) {
+        for(int i = 2; i <= k; i++)  {
             temp *= (n - i+1);
             temp /= i;
         }
@@ -159,7 +163,10 @@ class BrezierCurve : Curve {
     
 public:
     Vector2D r(float t) {
-        return Vector2D();
+        Vector2D r = Vector2D();
+        for(int i = 0; i < cp->size; i++)
+            r += cp->points[i].vectorFromOrigo() * B(i,t);
+        return r;
     }
 };
 
