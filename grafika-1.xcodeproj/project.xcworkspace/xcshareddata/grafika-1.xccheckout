@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>18A7C53C-0F74-411A-9E4A-2A569C728F33</string>
+	<key>IDESourceControlProjectName</key>
+	<string>grafika-1</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>AC12218E685EDD79620715997FF7B259680726F5</key>
+		<string>github.com:coldcue/grafika-1.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>grafika-1.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>AC12218E685EDD79620715997FF7B259680726F5</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:coldcue/grafika-1.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>AC12218E685EDD79620715997FF7B259680726F5</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>AC12218E685EDD79620715997FF7B259680726F5</string>
+			<key>IDESourceControlWCCName</key>
+			<string>grafika-1</string>
+		</dict>
+	</array>
+</dict>
+</plist>

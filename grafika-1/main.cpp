@@ -62,42 +62,38 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Innentol modosithatod...
 
+// Libraries
+#include <vector>
+
 //--------------------------------------------------------
 // 3D Vektor
 //--------------------------------------------------------
-#include <vector>
-
-struct Vector {
-    float x, y, z;
+struct Vector2D {
+    float x, y;
     
-    Vector( ) {
-        x = y = z = 0;
+    Vector2D( ) {
+        x = y = 0;
     }
-    Vector(float x0, float y0, float z0 = 0) {
-        x = x0; y = y0; z = z0;
+    Vector2D(float x0, float y0) {
+        x = x0; y = y0;
     }
-    Vector operator*(float a) {
-        return Vector(x * a, y * a, z * a);
+    Vector2D operator+(const Vector2D& v) {
+        return Vector2D(x + v.x, y + v.y);
     }
-    Vector operator+(const Vector& v) {
-        return Vector(x + v.x, y + v.y, z + v.z);
+    Vector2D operator-(const Vector2D& v) {
+        return Vector2D(x - v.x, y - v.y);
     }
-    Vector operator-(const Vector& v) {
-        return Vector(x - v.x, y - v.y, z - v.z);
-    }
-    float operator*(const Vector& v) { 	// dot product
-        return (x * v.x + y * v.y + z * v.z);
-    }
-    Vector operator%(const Vector& v) { 	// cross product
-        return Vector(y*v.z-z*v.y, z*v.x - x*v.z, x*v.y - y*v.x);
-    }
-    Vector operator+=(const Vector& v) {
+    Vector2D operator+=(const Vector2D& v) {
         x += v.x;
         y += v.y;
-        z += v.z;
         return *this;
     }
-    float Length() { return sqrt(x * x + y * y + z * z); }
+    Vector2D operator-=(const Vector2D& v) {
+        x -= v.x;
+        y -= v.y;
+        return *this;
+    }
+    float Length() { return sqrt(x * x + y * y); }
 };
 
 //--------------------------------------------------------
@@ -109,6 +105,7 @@ struct Color {
     Color( ) {
         r = g = b = 0;
     }
+    
     Color(float r0, float g0, float b0) {
         r = r0; g = g0; b = b0;
     }
@@ -124,27 +121,16 @@ struct Color {
 };
 
 //--------------------------------------------------------
-// Brezier gorbe
+// Brezier curve
 //--------------------------------------------------------
-//class BezierCurve {
-//    std::vector<Vector> cps;	// control points
-//    
-//    float B(int i, float t) {
-//        int n = p.size()-1; // n deg polynomial = n+1 pts!
-//        float choose = 1;
-//        for(int j = 1; j <= i; j++) choose *= (float)(n-j+1)/j;
-//        return choose * pow(t, i) * pow(1-t, np-i);
-//    }
-//public:
-//    void AddControlPoint(Vector cp) { cps.push_back(cp); }
-//    
-//    Vector r(float t) {
-//        Vector rr(0, 0);
-//        for(int i = 0; i < cps.size(); i++)
-//            rr += cps[i] * B(i,t);
-//        return rr;
-//    }
-//};
+
+//--------------------------------------------------------
+// Catmull-Rom Spline
+//--------------------------------------------------------
+
+//--------------------------------------------------------
+// Catmull-Clark Curve
+//--------------------------------------------------------
 
 const int screenWidth = 600;	// alkalmazás ablak felbontása
 const int screenHeight = 600;
@@ -212,8 +198,7 @@ void onMouseMotion(int x, int y)
 
 // `Idle' esemenykezelo, jelzi, hogy az ido telik, az Idle esemenyek frekvenciajara csak a 0 a garantalt minimalis ertek
 void onIdle( ) {
-    long time = glutGet(GLUT_ELAPSED_TIME);		// program inditasa ota eltelt ido
-    
+    /*long time = glutGet(GLUT_ELAPSED_TIME);		// program inditasa ota eltelt ido*/
 }
 
 // ...Idaig modosithatod
