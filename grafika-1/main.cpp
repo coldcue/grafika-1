@@ -62,6 +62,8 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Innentol modosithatod...
 
+const int CIRCLE_RESOLUTION = 100;
+
 #include "imps.cpp"
 
 const int screenWidth = 600;	// alkalmazás ablak felbontása
@@ -105,8 +107,8 @@ void onDisplay( ) {
             glBegin(GL_LINE_STRIP); {
                 //Fekete
                 
-                for (int j = 0; j <= 100; j++) {
-                    float angle = (float)j / 100 * r * M_PI;
+                for (int j = 0; j <= CIRCLE_RESOLUTION; j++) {
+                    float angle = (float)j / CIRCLE_RESOLUTION * r * M_PI;
                     auto p = Point2D(center.x + r * cosf(angle), center.y + r * sinf(angle));
                     
                     //Translate and convert ot GL coordinates

@@ -18,6 +18,8 @@
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+const int MAX_CONTROLL_POINTS = 10;
+
 //--------------------------------------------------------
 // 2D Vektor
 //--------------------------------------------------------
@@ -121,12 +123,12 @@ struct Color {
 // ControllPoints
 //--------------------------------------------------------
 struct ControllPoints {
-    Point2D points[10];
+    Point2D points[MAX_CONTROLL_POINTS];
     int size = 0;
     
     bool add(Point2D p){
         //Max 10
-        if(size>=10)
+        if(size>=MAX_CONTROLL_POINTS)
             return false;
         points[size++] = p;
         return true;
