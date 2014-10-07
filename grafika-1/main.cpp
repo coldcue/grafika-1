@@ -67,45 +67,58 @@
 const int screenWidth = 600;	// alkalmazás ablak felbontása
 const int screenHeight = 600;
 
+const float screenWidthf = 600.0f;
+const float screenHeightf = 600.0f;
+
 
 Color image[screenWidth*screenHeight];	// egy alkalmazás ablaknyi kép
 
 //ControllPoints
 auto cntrPts = ControllPoints();
 
+//Translation vectors
+auto tranVect = Vector2D(screenWidthf/58.0f, screenHeightf/68.0f);
+auto tranVectBack = Vector2D(58.0f/screenWidthf, 68.0f/screenHeightf);
+
 
 // Inicializacio, a program futasanak kezdeten, az OpenGL kontextus letrehozasa utan hivodik meg (ld. main() fv.)
 void onInitialization( ) {
     glViewport(0, 0, screenWidth, screenHeight);
-    
-    // Peldakent keszitunk egy kepet az operativ memoriaba
-    for(int Y = 0; Y < screenHeight; Y++)
-        for(int X = 0; X < screenWidth; X++)
-            image[Y*screenWidth + X] = Color((float)X/screenWidth, (float)Y/screenHeight, 0);
-    
 }
 
 // Rajzolas, ha az alkalmazas ablak ervenytelenne valik, akkor ez a fuggveny hivodik meg
 void onDisplay( ) {
-    glClearColor(0.1f, 0.2f, 0.3f, 1.0f);		// torlesi szin beallitasa
+    glClearColor(0.95f, 0.95f, 0.95f, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // kepernyo torles
     
-    // ..
-    
-    // Peldakent atmasoljuk a kepet a rasztertarba
-    glDrawPixels(screenWidth, screenHeight, GL_RGB, GL_FLOAT, image);
-    // Majd rajzolunk egy kek haromszoget
-    glColor3f(0, 0, 1);
-    glBegin(GL_TRIANGLES);
-    glVertex2f(-0.2f, -0.2f);
-    glVertex2f( 0.2f, -0.2f);
-    glVertex2f( 0.0f,  0.2f);
-    glEnd( );
-    
-    // ...
+    //  Draw control points
+    {
+        auto cp = cntrPts;
+        //TODO: Calculate control point rotation
+        
+        glColor3f(0.0f, 0.0f, 0.0f);
+        
+        for (int i = 0; i<cp.size; i++) {
+            auto center = cp.points[i];
+            float r = 2.0f;
+            
+            glBegin(GL_LINE_STRIP); {
+                //Fekete
+                
+                for (int j = 0; j <= 100; j++) {
+                    float angle = (float)j / 100 * r * M_PI;
+                    auto p = Point2D(center.x + r * cosf(angle), center.y + r * sinf(angle));
+                    
+                    //Translate and convert ot GL coordinates
+                    p = (p + tranVect).toGlCoordinates(screenWidthf, screenHeightf);
+                    glVertex2f(p.x,p.y);
+                }
+                
+            } glEnd();
+        }
+    }
     
     glutSwapBuffers();     				// Buffercsere: rajzolas vege
-    
 }
 
 // Billentyuzet esemenyeket lekezelo fuggveny (lenyomas)
@@ -121,8 +134,10 @@ void onKeyboardUp(unsigned char key, int x, int y) {
 
 // Eger esemenyeket lekezelo fuggveny
 void onMouse(int button, int state, int x, int y) {
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
-        glutPostRedisplay( ); 						 // Ilyenkor rajzold ujra a kepet
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
+        cntrPts.add(Point2D(x, y) + tranVectBack);
+        glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
+    }
 }
 
 // Eger mozgast lekezelo fuggveny

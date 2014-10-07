@@ -84,6 +84,10 @@ struct Point2D {
     Vector2D vectorFromOrigo(){
         return Vector2D(x,y);
     }
+    
+    Point2D toGlCoordinates(float screenWidthf, float screenHeightf) {
+        return Point2D((x - screenWidthf/2.0f) / (screenWidthf/2.0f), (screenHeightf/2.0f - y) / (screenHeightf/2.0f));
+    }
 };
 
 //--------------------------------------------------------
