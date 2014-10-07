@@ -76,11 +76,14 @@ const int screenHeight = 600;
 const float screenWidthf = 600.0f;
 const float screenHeightf = 600.0f;
 
+const float cameraWidthf = 58.0f;
+const float cameraHeightf = 68.0f;
+
 
 Color image[screenWidth*screenHeight];	// egy alkalmazás ablaknyi kép
 
 //ControllPoints
-ControllPoints cntrPts = ControllPoints();
+auto cntrPts = ControllPoints();
 ControllPoints lastCntrPts;
 bool rotateCntrPts = false;
 long rotateStartTime;
@@ -89,8 +92,8 @@ bool centerPointSelected = false;
 int centerPointNum;
 
 //Translation vectors
-auto tranVect = Vector2D(screenWidthf/58.0f, screenHeightf/68.0f);
-auto tranVectBack = Vector2D(58.0f/screenWidthf, 68.0f/screenHeightf);
+auto tranVect = Vector2D(screenWidthf/cameraWidthf, screenHeightf/cameraHeightf);
+auto tranVectBack = Vector2D(cameraWidthf/screenWidthf, cameraHeightf/screenHeightf);
 
 
 // Inicializacio, a program futasanak kezdeten, az OpenGL kontextus letrehozasa utan hivodik meg (ld. main() fv.)
@@ -117,6 +120,10 @@ void onDisplay( ) {
     // Save last control points
     lastCntrPts = cp;
     
+    // Center point
+    auto centerPoint = (centerPointSelected) ? cp.points[centerPointNum] : Point2D(cameraWidthf/2.0f, cameraHeightf/2.0f);
+    auto centerVector = centerPoint.move(Vector2D(-cameraWidthf/2.0f, -cameraHeightf/2.0f)).vectorFromOrigo();
+    
     //  Draw control points
     {
         //Fekete
@@ -127,11 +134,11 @@ void onDisplay( ) {
             
             glBegin(GL_LINE_STRIP); {
                 for (int j = 0; j <= CIRCLE_RESOLUTION; j++) {
-                    float angle = (float)j / CIRCLE_RESOLUTION * CONTROL_POINT_R * M_PI;
+                    float angle = (float)j / CIRCLE_RESOLUTION * 2.0f * M_PI;
                     auto p = Point2D(center.x + CONTROL_POINT_R * cosf(angle), center.y + CONTROL_POINT_R * sinf(angle));
                     
-                    //Translate and convert ot GL coordinates
-                    p = p.toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                    //Move, Translate and convert ot GL coordinates
+                    p = p.move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                     glVertex2f(p.x,p.y);
                 }
                 
@@ -150,7 +157,7 @@ void onDisplay( ) {
         glBegin(GL_LINE_STRIP); {
             for (int i = 0; i < CURVE_RESOLUTION; i++) {
                 float t = (float)i/(float)CURVE_RESOLUTION;
-                auto p = Point2D(bc.r(t)).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                auto p = Point2D(bc.r(t)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                 glVertex2f(p.x,p.y);
             }
         } glEnd();
@@ -181,7 +188,8 @@ void onMouse(int button, int state, int x, int y) {
             auto p = Point2D(x, y) + tranVectBack;
             for (int i = 0; i < lastCntrPts.size; i++) {
                 if (lastCntrPts.points[i].dist(p) <= CONTROL_POINT_R) {
-                    
+                    centerPointNum = i;
+                    centerPointSelected = true;
                 }
             }
         }
