@@ -63,6 +63,7 @@
 // Innentol modosithatod...
 
 const int CIRCLE_RESOLUTION = 100;
+const int CURVE_RESOLUTION = 1000;
 
 #include "imps.cpp"
 
@@ -93,11 +94,13 @@ void onDisplay( ) {
     glClearColor(0.95f, 0.95f, 0.95f, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // kepernyo torles
     
+    //Control points
+    auto cp = cntrPts;
+    //TODO: Calculate control point rotation
+    
     //  Draw control points
     {
-        auto cp = cntrPts;
-        //TODO: Calculate control point rotation
-        
+        //Fekete
         glColor3f(0.0f, 0.0f, 0.0f);
         
         for (int i = 0; i<cp.size; i++) {
@@ -105,8 +108,6 @@ void onDisplay( ) {
             float r = 2.0f;
             
             glBegin(GL_LINE_STRIP); {
-                //Fekete
-                
                 for (int j = 0; j <= CIRCLE_RESOLUTION; j++) {
                     float angle = (float)j / CIRCLE_RESOLUTION * r * M_PI;
                     auto p = Point2D(center.x + r * cosf(angle), center.y + r * sinf(angle));
@@ -118,6 +119,23 @@ void onDisplay( ) {
                 
             } glEnd();
         }
+    }
+    
+    // Brezier curve
+    {
+        //Piros
+        glColor3f(1.0f, 0.0f, 0.0f);
+        
+        auto bc = BrezierCurve();
+        bc.setControllPoints(&cp);
+        
+        glBegin(GL_LINE_STRIP); {
+            for (int i = 0; i < CURVE_RESOLUTION; i++) {
+                float t = (float)i/(float)CURVE_RESOLUTION;
+                auto p = Point2D(bc.r(t)).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                glVertex2f(p.x,p.y);
+            }
+        } glEnd();
     }
     
     glutSwapBuffers();     				// Buffercsere: rajzolas vege

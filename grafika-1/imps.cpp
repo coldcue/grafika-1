@@ -69,6 +69,8 @@ struct Point2D {
     
     Point2D(float x, float y) : x(x), y(y) {}
     
+    Point2D(Vector2D v) : x(v.x), y(v.y) {}
+    
     float dist(Point2D p) {
         return sqrtf( (x-p.x)*(x-p.x) + (y-p.y)*(y-p.y));
     }
@@ -144,7 +146,7 @@ protected:
     
 public:
     virtual Vector2D r(float t) = 0;
-    void setControllPonints(ControllPoints *cp) {
+    void setControllPoints(ControllPoints *cp) {
         this->cp = cp;
     }
 };
@@ -153,7 +155,7 @@ public:
 // Brezier curve
 //--------------------------------------------------------
 
-class BrezierCurve : Curve {
+class BrezierCurve : public Curve {
     int nCk (int n, int k) {
         if (k > n) return 0;
         if (k == 0) return 1;

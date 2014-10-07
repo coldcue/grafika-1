@@ -117,7 +117,7 @@ void testBrezierCurve(ControllPoints& cp) {
     cout<<endl<<"[ Testing Brezier curve ]"<<endl;
     
     BrezierCurve bc = BrezierCurve();
-    bc.setControllPonints(&cp);
+    bc.setControllPoints(&cp);
     
     cout<<"nck ";
     assert(bc.nCk(3, 0) == 1);
