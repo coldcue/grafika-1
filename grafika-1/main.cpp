@@ -66,17 +66,17 @@
 #include <vector>
 
 //--------------------------------------------------------
-// 3D Vektor
+// 2D Vektor
 //--------------------------------------------------------
 struct Vector2D {
     float x, y;
     
-    Vector2D( ) {
+    Vector2D() {
         x = y = 0;
     }
-    Vector2D(float x0, float y0) {
-        x = x0; y = y0;
-    }
+    
+    Vector2D(float x, float y): x(x), y(y) {}
+    
     Vector2D operator+(const Vector2D& v) {
         return Vector2D(x + v.x, y + v.y);
     }
@@ -93,7 +93,41 @@ struct Vector2D {
         y -= v.y;
         return *this;
     }
-    float Length() { return sqrt(x * x + y * y); }
+    
+    //Skalar szorzat
+    Vector2D operator*(const float a) {
+        return Vector2D(x*a,y*a);
+    }
+    
+    float abs() { return sqrtf(x * x + y * y); }
+};
+
+//--------------------------------------------------------
+// 2D Pont
+//--------------------------------------------------------
+
+struct Point2D {
+    float x,y;
+    
+    Point2D() {
+        x = y = 0;
+    }
+    
+    Point2D(float x, float y) : x(x), y(y) {}
+    
+    float dist(Point2D p) {
+        return sqrtf(x*p.x + y*p.y);
+    }
+    
+    //Translation
+    Point2D operator+(const Vector2D& v) {
+        return Point2D(x*v.x, y*v.y);
+    }
+    
+    //Vector
+    Vector2D operator-(const Point2D& p) {
+        return Vector2D(x-p.x, y-p.y);
+    }
 };
 
 //--------------------------------------------------------
@@ -125,11 +159,11 @@ struct Color {
 //--------------------------------------------------------
 
 //--------------------------------------------------------
-// Catmull-Rom Spline
+// Catmull-Rom spline
 //--------------------------------------------------------
 
 //--------------------------------------------------------
-// Catmull-Clark Curve
+// Catmull-Clark curve
 //--------------------------------------------------------
 
 const int screenWidth = 600;	// alkalmazás ablak felbontása
