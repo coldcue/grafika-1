@@ -110,7 +110,7 @@ void onDisplay( ) {
                     auto p = Point2D(center.x + r * cosf(angle), center.y + r * sinf(angle));
                     
                     //Translate and convert ot GL coordinates
-                    p = p.toGlCoordinates(tranVect, screenWidthf, screenHeightf);
+                    p = p.toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                     glVertex2f(p.x,p.y);
                 }
                 
