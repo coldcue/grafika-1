@@ -63,7 +63,6 @@
 // Innentol modosithatod...
 
 // Libraries
-#include <vector>
 
 //--------------------------------------------------------
 // 2D Vektor
@@ -105,7 +104,6 @@ struct Vector2D {
 //--------------------------------------------------------
 // 2D Pont
 //--------------------------------------------------------
-
 struct Point2D {
     float x,y;
     
@@ -153,10 +151,48 @@ struct Color {
         return Color(r + c.r, g + c.g, b + c.b);
     }
 };
+//--------------------------------------------------------
+// ControllPoints
+//--------------------------------------------------------
+struct ControllPoints {
+    Point2D points[10];
+    int size = 0;
+    
+    bool add(Point2D p){
+        //Max 10
+        if(size>=10)
+            return false;
+        points[size++] = p;
+        return true;
+    }
+};
+
+//--------------------------------------------------------
+// Curve
+//--------------------------------------------------------
+class Curve {
+protected:
+    ControllPoints* cp;
+    
+public:
+    Curve(ControllPoints* cp): cp(cp) {}
+    virtual Vector2D r(float t) = 0;
+};
 
 //--------------------------------------------------------
 // Brezier curve
 //--------------------------------------------------------
+
+class BrezierCurve : Curve {
+    float B(float i, float t){
+        return 0.0;
+    }
+    
+public:
+    Vector2D r(float t) {
+        return Vector2D();
+    }
+};
 
 //--------------------------------------------------------
 // Catmull-Rom spline
@@ -166,11 +202,16 @@ struct Color {
 // Catmull-Clark curve
 //--------------------------------------------------------
 
+
+
 const int screenWidth = 600;	// alkalmazás ablak felbontása
 const int screenHeight = 600;
 
 
 Color image[screenWidth*screenHeight];	// egy alkalmazás ablaknyi kép
+
+//ControllPoints
+auto cntrPts = ControllPoints();
 
 
 // Inicializacio, a program futasanak kezdeten, az OpenGL kontextus letrehozasa utan hivodik meg (ld. main() fv.)
