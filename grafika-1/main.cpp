@@ -64,6 +64,7 @@
 
 const int CIRCLE_RESOLUTION = 100;
 const int CURVE_RESOLUTION = 1000;
+const int ROTATE_INTERVAL = 5 * 1000;
 
 #include "imps.cpp"
 
@@ -78,6 +79,9 @@ Color image[screenWidth*screenHeight];	// egy alkalmazás ablaknyi kép
 
 //ControllPoints
 auto cntrPts = ControllPoints();
+bool rotateCntrPts = false;
+long rotateStartTime;
+float rotateT;
 
 //Translation vectors
 auto tranVect = Vector2D(screenWidthf/58.0f, screenHeightf/68.0f);
@@ -96,7 +100,15 @@ void onDisplay( ) {
     
     //Control points
     auto cp = cntrPts;
-    //TODO: Calculate control point rotation
+    
+    // Calculate control point rotation
+    if (rotateCntrPts) {
+        float r = 5.0f;
+        for (int i = 0; i < cp.size; i++) {
+            float angle = (i%2 == 0) ? rotateT * r * M_PI : (1.0f-rotateT) * r * M_PI;
+            cp.points[i] = Point2D(cp.points[i].x + r * cosf(angle), cp.points[i].y + r * (sinf(angle) - 1.0f));
+        }
+    }
     
     //  Draw control points
     {
@@ -144,7 +156,10 @@ void onDisplay( ) {
 // Billentyuzet esemenyeket lekezelo fuggveny (lenyomas)
 void onKeyboard(unsigned char key, int x, int y) {
     if (key == 'd') glutPostRedisplay( ); 		// d beture rajzold ujra a kepet
-    
+    else if(key == ' ') {
+        rotateCntrPts = true;
+        rotateStartTime = glutGet(GLUT_ELAPSED_TIME);
+    }
 }
 
 // Billentyuzet esemenyeket lekezelo fuggveny (felengedes)
@@ -155,8 +170,14 @@ void onKeyboardUp(unsigned char key, int x, int y) {
 // Eger esemenyeket lekezelo fuggveny
 void onMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
-        cntrPts.add(Point2D(x, y) + tranVectBack);
-        glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
+        if(rotateCntrPts)
+        {
+            //TODO click
+        }
+        else {
+            cntrPts.add(Point2D(x, y) + tranVectBack);
+            glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
+        }
     }
 }
 
@@ -168,7 +189,13 @@ void onMouseMotion(int x, int y)
 
 // `Idle' esemenykezelo, jelzi, hogy az ido telik, az Idle esemenyek frekvenciajara csak a 0 a garantalt minimalis ertek
 void onIdle( ) {
-    /*long time = glutGet(GLUT_ELAPSED_TIME);		// program inditasa ota eltelt ido*/
+    long time = glutGet(GLUT_ELAPSED_TIME);		// program inditasa ota eltelt ido*/
+    
+    if(rotateCntrPts) {
+        //Calc rotateT
+        rotateT = (float)((time - rotateStartTime) % ROTATE_INTERVAL) / (float)ROTATE_INTERVAL;
+        glutPostRedisplay();
+    }
 }
 
 // ...Idaig modosithatod

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "grafika-1/main.cpp"
-            timestampString = "434404171.529186"
+            timestampString = "434411909.32733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "onDisplay( )"
             landmarkType = "7">
          </BreakpointContent>
