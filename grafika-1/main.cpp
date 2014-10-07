@@ -65,6 +65,8 @@
 const int CIRCLE_RESOLUTION = 100;
 const int CURVE_RESOLUTION = 1000;
 const int ROTATE_INTERVAL = 5 * 1000;
+const float CONTROL_POINT_R = 2.0f;
+const float CONTROL_POINT_ROTATE_R = 5.0f;
 
 #include "imps.cpp"
 
@@ -78,10 +80,13 @@ const float screenHeightf = 600.0f;
 Color image[screenWidth*screenHeight];	// egy alkalmazás ablaknyi kép
 
 //ControllPoints
-auto cntrPts = ControllPoints();
+ControllPoints cntrPts = ControllPoints();
+ControllPoints lastCntrPts;
 bool rotateCntrPts = false;
 long rotateStartTime;
 float rotateT;
+bool centerPointSelected = false;
+int centerPointNum;
 
 //Translation vectors
 auto tranVect = Vector2D(screenWidthf/58.0f, screenHeightf/68.0f);
@@ -103,12 +108,14 @@ void onDisplay( ) {
     
     // Calculate control point rotation
     if (rotateCntrPts) {
-        float r = 5.0f;
         for (int i = 0; i < cp.size; i++) {
             float angle = (i%2 == 0) ? (rotateT + 0.25f) * 2.0f * M_PI : (1.0f-(rotateT - 0.25f)) * 2.0f * M_PI;
-            cp.points[i] = Point2D(cp.points[i].x + r * cosf(angle), cp.points[i].y + r * (sinf(angle) - 1.0f));
+            cp.points[i] = Point2D(cp.points[i].x + CONTROL_POINT_ROTATE_R * cosf(angle), cp.points[i].y + CONTROL_POINT_ROTATE_R * (sinf(angle) - 1.0f));
         }
     }
+    
+    // Save last control points
+    lastCntrPts = cp;
     
     //  Draw control points
     {
@@ -117,12 +124,11 @@ void onDisplay( ) {
         
         for (int i = 0; i<cp.size; i++) {
             auto center = cp.points[i];
-            float r = 2.0f;
             
             glBegin(GL_LINE_STRIP); {
                 for (int j = 0; j <= CIRCLE_RESOLUTION; j++) {
-                    float angle = (float)j / CIRCLE_RESOLUTION * r * M_PI;
-                    auto p = Point2D(center.x + r * cosf(angle), center.y + r * sinf(angle));
+                    float angle = (float)j / CIRCLE_RESOLUTION * CONTROL_POINT_R * M_PI;
+                    auto p = Point2D(center.x + CONTROL_POINT_R * cosf(angle), center.y + CONTROL_POINT_R * sinf(angle));
                     
                     //Translate and convert ot GL coordinates
                     p = p.toGlCoordinates(screenWidthf, screenHeightf, tranVect);
@@ -172,7 +178,12 @@ void onMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
         if(rotateCntrPts)
         {
-            //TODO click
+            auto p = Point2D(x, y) + tranVectBack;
+            for (int i = 0; i < lastCntrPts.size; i++) {
+                if (lastCntrPts.points[i].dist(p) <= CONTROL_POINT_R) {
+                    
+                }
+            }
         }
         else {
             cntrPts.add(Point2D(x, y) + tranVectBack);

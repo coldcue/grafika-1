@@ -96,6 +96,10 @@ struct Point2D {
     Point2D toGlCoordinates(float screenWidthf, float screenHeightf, Vector2D tranVect) {
         return (*this + tranVect).toGlCoordinates(screenWidthf, screenHeightf);
     }
+    
+    Point2D move(const Vector2D& v) {
+        return Point2D(x+v.x, y+v.y);
+    }
 };
 
 //--------------------------------------------------------
