@@ -85,6 +85,7 @@ Color image[screenWidth*screenHeight];	// egy alkalmazás ablaknyi kép
 //ControllPoints
 auto cntrPts = ControllPoints();
 ControllPoints lastCntrPts;
+Vector2D lastCntrVector;
 bool rotateCntrPts = false;
 long rotateStartTime;
 float rotateT;
@@ -123,6 +124,7 @@ void onDisplay( ) {
     // Center point
     auto centerPoint = (centerPointSelected) ? cp.points[centerPointNum] : Point2D(cameraWidthf/2.0f, cameraHeightf/2.0f);
     auto centerVector = centerPoint.move(Vector2D(-cameraWidthf/2.0f, -cameraHeightf/2.0f)).vectorFromOrigo();
+    lastCntrVector = centerVector;
     
     //  Draw control points
     {
@@ -185,7 +187,7 @@ void onMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
         if(rotateCntrPts)
         {
-            auto p = Point2D(x, y) + tranVectBack;
+            auto p = (Point2D(x, y) + tranVectBack).move(lastCntrVector);
             for (int i = 0; i < lastCntrPts.size; i++) {
                 if (lastCntrPts.points[i].dist(p) <= CONTROL_POINT_R) {
                     centerPointNum = i;
