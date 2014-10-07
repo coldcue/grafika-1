@@ -68,7 +68,7 @@ struct Point2D {
     Point2D(float x, float y) : x(x), y(y) {}
     
     float dist(Point2D p) {
-        return sqrtf(x*p.x + y*p.y);
+        return sqrtf( (x-p.x)*(x-p.x) + (y-p.y)*(y-p.y));
     }
     
     //Translation
