@@ -5,9 +5,13 @@
 //  Created by Andras Szell on 10/7/14.
 //  Copyright (c) 2014 Andras Szell. All rights reserved.
 //
-
-#include "imps.cpp"
 #include <iostream>
+
+#define private public
+#define protected public
+#define class struct
+#include "imps.cpp"
+
 
 using namespace std;
 
@@ -85,10 +89,66 @@ void testPoint2D() {
     assertFloat(d, 3.60555);
 }
 
+//--------------------------------------------------------
+// ControllPoints
+//--------------------------------------------------------
+ControllPoints testControllPoints(){
+    cout<<endl<<"[ Testing ControllPoints ]"<<endl;
+    ControllPoints cp = ControllPoints();
+    
+    cp.add(Point2D(1,2));
+    cout<<"add ";
+    assert(cp.points[0].dist(Point2D(1,2))==0);
+    cp.add(Point2D(3,5));
+    cp.add(Point2D(7,11));
+    cp.add(Point2D(-3,6));
+    cp.add(Point2D(-7,5));
+    
+    cout<<"size ";
+    assert(cp.size==5);
+    
+    return cp;
+}
+
+//--------------------------------------------------------
+// Brezier curve
+//--------------------------------------------------------
+void testBrezierCurve(ControllPoints& cp) {
+    cout<<endl<<"[ Testing Brezier curve ]"<<endl;
+    
+    BrezierCurve bc = BrezierCurve();
+    bc.setControllPonints(&cp);
+    
+    cout<<"nck ";
+    assert(bc.nCk(3, 0) == 1);
+    assert(bc.nCk(3, 1) == 3);
+    assert(bc.nCk(3, 2) == 3);
+    assert(bc.nCk(3, 3) == 1);
+    assert(bc.nCk(3, 4) == 0);
+    
+    cout<<"b ";
+    for(int it = 0; it<=10; it++){
+        float t = (float)it/10.0;
+        cout<<"t="<<t<<" ->";
+        
+        float sum = 0;
+        for(int i = 0; i < bc.cp->size; i++) {
+            auto b = bc.B(i,t);
+            sum += b;
+            cout<<" "<<i<<"="<<b;
+        }
+        cout <<" ";
+        assertFloat(sum, 1);
+    }
+
+}
+
 int main(int argc, char **argv) {
     
     testVector2D();
     testPoint2D();
+    ControllPoints cntrPnts = testControllPoints();
+    testBrezierCurve(cntrPnts);
     
     if(errorcount)
         cout<<endl<<errorcount<<" ERROR(S) - TEST FAILED!"<<endl;

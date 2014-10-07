@@ -129,8 +129,10 @@ protected:
     ControllPoints* cp;
     
 public:
-    Curve(ControllPoints* cp): cp(cp) {}
     virtual Vector2D r(float t) = 0;
+    void setControllPonints(ControllPoints *cp) {
+        this->cp = cp;
+    }
 };
 
 //--------------------------------------------------------
@@ -138,8 +140,21 @@ public:
 //--------------------------------------------------------
 
 class BrezierCurve : Curve {
-    float B(float i, float t){
-        return 0.0;
+    int nCk (int n, int k) {
+        if (k > n) return 0;
+        if (k == 0) return 1;
+        
+        int temp = n;
+        for( int i = 2; i <= k; ++i ) {
+            temp *= (n - i+1);
+            temp /= i;
+        }
+        return temp;
+    }
+    
+    float B(int i, float t){
+        int n = cp->size - 1;
+        return nCk(n,i)*powf(t, i)* powf((1-t),n-i);
     }
     
 public:
