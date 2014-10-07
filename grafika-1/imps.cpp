@@ -88,6 +88,10 @@ struct Point2D {
     Point2D toGlCoordinates(float screenWidthf, float screenHeightf) {
         return Point2D((x - screenWidthf/2.0f) / (screenWidthf/2.0f), (screenHeightf/2.0f - y) / (screenHeightf/2.0f));
     }
+    
+    Point2D toGlCoordinates(Vector2D tranVect, float screenWidthf, float screenHeightf) {
+        return (*this + tranVect).toGlCoordinates(screenWidthf, screenHeightf);
+    }
 };
 
 //--------------------------------------------------------
