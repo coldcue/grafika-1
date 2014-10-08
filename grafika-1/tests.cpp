@@ -87,6 +87,10 @@ void testPoint2D() {
     cout<<"dist ";
     float d = p1.dist(p2);
     assertFloat(d, 3.60555);
+    
+    cout<<"average ";
+    auto p4 = p1.average(p2);
+    assert(p4 == Point2D(2.0f, 3.5f));
 }
 
 //--------------------------------------------------------
@@ -183,6 +187,20 @@ void testConvexHull(ControllPoints& cp) {
     }
 }
 
+//--------------------------------------------------------
+// Catmull clark
+//--------------------------------------------------------
+void testCatmullClarkCurve(ControllPoints& cp){
+    cout<<endl<<"[ Testing Catmull-Clark Curve ]"<<endl;
+    
+    auto ck = CatmullClarkCurve(&cp);
+    ck.calcPoints(1);
+    
+    for(int i = 0; i < ck.size; i++) {
+        cout<<"("<<ck.points[i].x<<";"<<ck.points[i].y<<") "<<endl;
+    }
+}
+
 int main(int argc, char **argv) {
     
     testVector2D();
@@ -190,6 +208,7 @@ int main(int argc, char **argv) {
     ControllPoints cntrPnts = testControllPoints();
     testBrezierCurve(cntrPnts);
     testConvexHull(cntrPnts);
+    testCatmullClarkCurve(cntrPnts);
     
     if(errorcount)
         cout<<endl<<errorcount<<" ERROR(S) - TEST FAILED!"<<endl;

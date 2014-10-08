@@ -19,6 +19,7 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 const int MAX_CONTROLL_POINTS = 10;
+const int MAX_SUBDIVISION_POINTS = 1000;
 
 //--------------------------------------------------------
 // 2D Vektor
@@ -113,6 +114,10 @@ struct Point2D {
     float crossProduct(const Point2D &p1, const Point2D &p2)
     {
         return (p1.x - x) * (p2.y - y) - (p1.y - y) * (p2.x - x);
+    }
+    
+    Point2D average(const Point2D& p){
+        return Point2D((x+p.x)/2,(y+p.y)/2);
     }
 };
 
@@ -227,14 +232,14 @@ public:
         qsort(points, n, sizeof(Point2D), compare);
         
         // Build lower hull
-        for (int i = 0; i < n; ++i) {
+        for (int i=0; i < n; ++i) {
             while (k >= 2 && hull[k-2].crossProduct(hull[k-1], points[i]) <= 0) k--;
             hull[k++] = points[i];
         }
         
         // Build upper hull
-        for (int i = n-2, t = k+1; i >= 0; i--) {
-            while (k >= t && hull[k-2].crossProduct(hull[k-1], points[i]) <= 0) k--;
+        for (int i=n-2, l=k+1; i >= 0; i--) {
+            while (k >= l && hull[k-2].crossProduct(hull[k-1], points[i]) <= 0) k--;
             hull[k++] = points[i];
         }
         size = k;
@@ -244,7 +249,69 @@ public:
 //--------------------------------------------------------
 // Catmull-Rom spline
 //--------------------------------------------------------
+class CatmullRomSpline : public Curve {
+    float M(int k, float t){
+        return 0;
+    }
+    
+public:
+    Vector2D r(float t) {
+        Vector2D r = Vector2D();
+        for(int i = 0; i < cp->size; i++)
+            r += cp->points[i].vectorFromOrigo() * M(i,t);
+        return r;
+    }
+};
 
 //--------------------------------------------------------
-// Catmull-Clark curve
+// Catmull-Clark Subdivision curve
 //--------------------------------------------------------
+class CatmullClarkCurve {
+    ControllPoints* cp;
+    void subdivision() {
+        Point2D middlePoints[MAX_SUBDIVISION_POINTS];
+        Point2D newPoints[MAX_SUBDIVISION_POINTS];
+        
+        //Calculate middle points
+        for (int i = 0; i < size-1; i++) {
+            middlePoints[i] = points[i].average(points[i+1]);
+        }
+        
+        //Move original points
+        for (int i = 1; i < size-1; i++) {
+            points[i] = Point2D((points[i].x * 2 + middlePoints[i].x + middlePoints[i].x) / 4, (points[i].y * 2 + middlePoints[i].y + middlePoints[i].y) / 4);
+        }
+        
+        //Add middle points between original points
+        for (int i = 0; i < size; i++) {
+            //Add moved original point
+            newPoints[i*2] = points[i];
+            
+            //Add middle point
+            newPoints[i*2+1] = middlePoints[i];
+        }
+        
+        size += size - 1;
+        
+        // Copy new points
+        for (int i = 0; i < size; i++) {
+            points[i] = newPoints[i];
+        }
+    }
+public:
+    Point2D points[MAX_SUBDIVISION_POINTS];
+    int size = 0;
+    
+    CatmullClarkCurve(ControllPoints *cp): cp(cp) {}
+    
+    void calcPoints(int subdivisions) {
+        // Copy points
+        for (int i = 0; i < cp->size; i++) {
+            points[i] = cp->points[i];
+        }
+        size = cp->size;
+        for(int i = 0; i < subdivisions; i++) {
+            subdivision();
+        }
+    }
+};
