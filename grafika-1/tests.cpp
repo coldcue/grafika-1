@@ -199,6 +199,13 @@ void testCatmullClarkCurve(ControllPoints& cp){
     for(int i = 0; i < ck.size; i++) {
         cout<<"("<<ck.points[i].x<<";"<<ck.points[i].y<<") "<<endl;
     }
+    
+    ck = CatmullClarkCurve(&cp);
+    ck.calcPoints(2);
+    
+    for(int i = 0; i < ck.size; i++) {
+        cout<<"("<<ck.points[i].x<<";"<<ck.points[i].y<<") "<<endl;
+    }
 }
 
 int main(int argc, char **argv) {

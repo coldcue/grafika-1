@@ -159,6 +159,22 @@ void onDisplay( ) {
         } glEnd();
     }
     
+    // Catmull-Clark curve
+    {
+        //Kek
+        glColor3f(0.0f, 0.0f, 1.0f);
+        
+        CatmullClarkCurve cc = CatmullClarkCurve(&cp);
+        cc.calcPoints(3);
+        
+        glBegin(GL_LINE_STRIP); {
+            for (int i = 0; i < cc.size; i++) {
+                auto p = cc.points[i].move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                glVertex2f(p.x,p.y);
+            }
+        } glEnd();
+    }
+    
     //  Draw control points (most priority)
     {
         //Fekete

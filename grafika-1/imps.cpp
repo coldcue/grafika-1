@@ -19,7 +19,7 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 const int MAX_CONTROLL_POINTS = 10;
-const int MAX_SUBDIVISION_POINTS = 1000;
+const int MAX_SUBDIVISION_POINTS = 100000;
 
 //--------------------------------------------------------
 // 2D Vektor
@@ -268,6 +268,7 @@ public:
 //--------------------------------------------------------
 class CatmullClarkCurve {
     ControllPoints* cp;
+    
     void subdivision() {
         Point2D middlePoints[MAX_SUBDIVISION_POINTS];
         Point2D newPoints[MAX_SUBDIVISION_POINTS];
@@ -279,7 +280,10 @@ class CatmullClarkCurve {
         
         //Move original points
         for (int i = 1; i < size-1; i++) {
-            points[i] = Point2D((points[i].x * 2 + middlePoints[i].x + middlePoints[i].x) / 4, (points[i].y * 2 + middlePoints[i].y + middlePoints[i].y) / 4);
+            //avg of 2 middle points
+            auto avg = middlePoints[i-1].average(middlePoints[i]);
+            
+            points[i] = Point2D((3*avg.x - points[i].x)/2, (3*avg.y - points[i].y)/2);
         }
         
         //Add middle points between original points
