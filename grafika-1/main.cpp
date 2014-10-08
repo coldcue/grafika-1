@@ -134,7 +134,7 @@ void onDisplay( ) {
         auto ch = ConvexHull(&cp);
         ch.calcHull();
         
-        glBegin(GL_LINE_STRIP); {
+        glBegin(GL_TRIANGLE_FAN); {
             for (int i = 0; i < ch.size; i++) {
                 auto p = ch.hull[i].move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                 glVertex2f(p.x, p.y);
@@ -187,7 +187,7 @@ void onDisplay( ) {
 // Billentyuzet esemenyeket lekezelo fuggveny (lenyomas)
 void onKeyboard(unsigned char key, int x, int y) {
     if (key == 'd') glutPostRedisplay( ); 		// d beture rajzold ujra a kepet
-    else if(key == ' ') {
+    else if(key == ' ' && !rotateCntrPts) {
         rotateCntrPts = true;
         rotateStartTime = glutGet(GLUT_ELAPSED_TIME);
     }
