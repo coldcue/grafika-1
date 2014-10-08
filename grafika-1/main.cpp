@@ -126,7 +126,26 @@ void onDisplay( ) {
     auto centerVector = centerPoint.move(Vector2D(-cameraWidthf/2.0f, -cameraHeightf/2.0f)).vectorFromOrigo();
     lastCntrVector = centerVector;
     
-    //  Draw control points
+    // Convex hull
+    
+    // Brezier curve
+    {
+        //Piros
+        glColor3f(1.0f, 0.0f, 0.0f);
+        
+        auto bc = BrezierCurve();
+        bc.setControllPoints(&cp);
+        
+        glBegin(GL_LINE_STRIP); {
+            for (int i = 0; i < CURVE_RESOLUTION; i++) {
+                float t = (float)i/(float)CURVE_RESOLUTION;
+                auto p = Point2D(bc.r(t)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                glVertex2f(p.x,p.y);
+            }
+        } glEnd();
+    }
+    
+    //  Draw control points (most priority)
     {
         //Fekete
         glColor3f(0.0f, 0.0f, 0.0f);
@@ -146,23 +165,6 @@ void onDisplay( ) {
                 
             } glEnd();
         }
-    }
-    
-    // Brezier curve
-    {
-        //Piros
-        glColor3f(1.0f, 0.0f, 0.0f);
-        
-        auto bc = BrezierCurve();
-        bc.setControllPoints(&cp);
-        
-        glBegin(GL_LINE_STRIP); {
-            for (int i = 0; i < CURVE_RESOLUTION; i++) {
-                float t = (float)i/(float)CURVE_RESOLUTION;
-                auto p = Point2D(bc.r(t)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
-                glVertex2f(p.x,p.y);
-            }
-        } glEnd();
     }
     
     glutSwapBuffers();     				// Buffercsere: rajzolas vege

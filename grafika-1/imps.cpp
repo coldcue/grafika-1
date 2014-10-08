@@ -85,6 +85,15 @@ struct Point2D {
         return Vector2D(x-p.x, y-p.y);
     }
     
+    //Which has lower coordinates
+    bool operator <(const Point2D& p) const {
+        return x < p.x || (x == p.x && y < p.y);
+    }
+    
+    bool operator ==(const Point2D& p) const {
+        return x == p.x && y == p.y;
+    }
+    
     Vector2D vectorFromOrigo(){
         return Vector2D(x,y);
     }
@@ -99,6 +108,11 @@ struct Point2D {
     
     Point2D move(const Vector2D& v) {
         return Point2D(x+v.x, y+v.y);
+    }
+    
+    float crossProduct(const Point2D &p1, const Point2D &p2)
+    {
+        return (p1.x - x) * (p2.y - y) - (p1.y - y) * (p2.x - x);
     }
 };
 
@@ -158,7 +172,6 @@ public:
 //--------------------------------------------------------
 // Brezier curve
 //--------------------------------------------------------
-
 class BrezierCurve : public Curve {
     int nCk (int n, int k) {
         if (k > n) return 0;
@@ -183,6 +196,49 @@ public:
         for(int i = 0; i < cp->size; i++)
             r += cp->points[i].vectorFromOrigo() * B(i,t);
         return r;
+    }
+};
+
+//--------------------------------------------------------
+// Convex Hull (Monotone chain algorithm - Wikipedia)
+//--------------------------------------------------------
+class ConvexHull {
+    ControllPoints* cp;
+    Point2D points[MAX_CONTROLL_POINTS];
+    
+    
+    static int compare (const void * a, const void * b) {
+        return *(Point2D*)a < *(Point2D*)b;
+    }
+public:
+    Point2D hull[2*MAX_CONTROLL_POINTS];
+    int size = 0;
+    
+    ConvexHull(ControllPoints *cp): cp(cp) {}
+    
+    void calcHull(){
+        int n = cp->size, k = 0;
+        
+        // Copy points
+        for (int i = 0; i < n; i++) {
+            points[i] = cp->points[i];
+        }
+        
+        // Sort
+        qsort(points, n, sizeof(Point2D), compare);
+        
+        // Build lower hull
+        for (int i = 0; i < n; ++i) {
+            while (k >= 2 && hull[k-2].crossProduct(hull[k-1], points[i]) <= 0) k--;
+            hull[k++] = points[i];
+        }
+        
+        // Build upper hull
+        for (int i = n-2, t = k+1; i >= 0; i--) {
+            while (k >= t && hull[k-2].crossProduct(hull[k-1], points[i]) <= 0) k--;
+            hull[k++] = points[i];
+        }
+        size = k;
     }
 };
 

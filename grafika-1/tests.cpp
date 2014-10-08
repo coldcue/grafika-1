@@ -151,12 +151,45 @@ void testBrezierCurve(ControllPoints& cp) {
 
 }
 
+//--------------------------------------------------------
+// Convex hull
+//--------------------------------------------------------
+void testConvexHull(ControllPoints& cp) {
+    cout<<endl<<"[ Testing Convex hull ]"<<endl;
+    
+    auto ch = ConvexHull(&cp);
+    ch.calcHull();
+    
+    for(int i = 0; i < ch.size; i++) {
+        cout<<"("<<ch.hull[i].x<<";"<<ch.hull[i].y<<") ";
+        
+        switch (i) {
+            case 0:
+                assert(ch.hull[i] == Point2D(7, 11));
+                break;
+            case 1:
+                assert(ch.hull[i] == Point2D(-7, 5));
+                break;
+            case 2:
+                assert(ch.hull[i] == Point2D(1, 2));
+                break;
+            case 3:
+                assert(ch.hull[i] == Point2D(7, 11));
+                break;
+            default:
+                assert(false);
+                break;
+        }
+    }
+}
+
 int main(int argc, char **argv) {
     
     testVector2D();
     testPoint2D();
     ControllPoints cntrPnts = testControllPoints();
     testBrezierCurve(cntrPnts);
+    testConvexHull(cntrPnts);
     
     if(errorcount)
         cout<<endl<<errorcount<<" ERROR(S) - TEST FAILED!"<<endl;
