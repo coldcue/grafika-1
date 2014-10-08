@@ -127,6 +127,20 @@ void onDisplay( ) {
     lastCntrVector = centerVector;
     
     // Convex hull
+    if (cp.size >= 2) {
+        //Turkiz
+        glColor3f(0.2549f, 0.8980f, 0.9686f);
+        
+        auto ch = ConvexHull(&cp);
+        ch.calcHull();
+        
+        glBegin(GL_LINE_STRIP); {
+            for (int i = 0; i < ch.size; i++) {
+                auto p = ch.hull[i].move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                glVertex2f(p.x, p.y);
+            }
+        } glEnd();
+    }
     
     // Brezier curve
     {

@@ -206,7 +206,6 @@ class ConvexHull {
     ControllPoints* cp;
     Point2D points[MAX_CONTROLL_POINTS];
     
-    
     static int compare (const void * a, const void * b) {
         return *(Point2D*)a < *(Point2D*)b;
     }
