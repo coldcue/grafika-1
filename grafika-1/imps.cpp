@@ -283,7 +283,7 @@ class CatmullClarkCurve {
             //avg of 2 middle points
             auto avg = middlePoints[i-1].average(middlePoints[i]);
             
-            points[i] = Point2D((3*avg.x - points[i].x)/2, (3*avg.y - points[i].y)/2);
+            points[i] = Point2D((2*avg.x + points[i].x)/3, (2*avg.y + points[i].y)/3);
         }
         
         //Add middle points between original points
