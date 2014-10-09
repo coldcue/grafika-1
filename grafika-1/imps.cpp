@@ -141,23 +141,11 @@ struct ControllPoints {
 };
 
 //--------------------------------------------------------
-// Curve
-//--------------------------------------------------------
-class Curve {
-protected:
-    ControllPoints* cp;
-    
-public:
-    virtual Vector2D r(float t) = 0;
-    void setControllPoints(ControllPoints *cp) {
-        this->cp = cp;
-    }
-};
-
-//--------------------------------------------------------
 // Brezier curve
 //--------------------------------------------------------
-class BrezierCurve : public Curve {
+class BrezierCurve {
+    ControllPoints *cp;
+    
     int nCk (int n, int k) {
         if (k > n) return 0;
         if (k == 0) return 1;
@@ -176,6 +164,8 @@ class BrezierCurve : public Curve {
     }
     
 public:
+    BrezierCurve(ControllPoints *cp): cp(cp) {};
+    
     Vector2D r(float t) {
         Vector2D r;
         for(int i = 0; i < cp->size; i++)
@@ -212,7 +202,7 @@ public:
         qsort(points, n, sizeof(Point2D), compare);
         
         // Build lower hull
-        for (int i=0; i < n; ++i) {
+        for (int i=0; i < n; i++) {
             while (k >= 2 && hull[k-2].crossProduct(hull[k-1], points[i]) <= 0) k--;
             hull[k++] = points[i];
         }
@@ -301,6 +291,8 @@ public:
     CatmullClarkCurve(ControllPoints *cp): cp(cp) {}
     
     void calcPoints(int subdivisions) {
+        subdivisions = (subdivisions > MAX_SUBDIVISION_ITERATIONS) ? MAX_SUBDIVISION_ITERATIONS : subdivisions;
+        
         // Copy points
         for (int i = 0; i < cp->size; i++) {
             points[i] = cp->points[i];

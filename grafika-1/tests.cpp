@@ -120,8 +120,7 @@ ControllPoints testControllPoints(){
 void testBrezierCurve(ControllPoints& cp) {
     cout<<endl<<"[ Testing Brezier curve ]"<<endl;
     
-    BrezierCurve bc;
-    bc.setControllPoints(&cp);
+    BrezierCurve bc(&cp);
     
     cout<<"nck ";
     assert(bc.nCk(3, 0) == 1);

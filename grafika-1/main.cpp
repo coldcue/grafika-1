@@ -144,8 +144,7 @@ void onDisplay( ) {
         //Piros
         glColor3f(1.0f, 0.0f, 0.0f);
         
-        BrezierCurve bc;
-        bc.setControllPoints(&cp);
+        BrezierCurve bc(&cp);
         
         glBegin(GL_LINE_STRIP); {
             for (int i = 0; i < CURVE_RESOLUTION; i++) {
