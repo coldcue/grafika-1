@@ -208,6 +208,25 @@ void testCatmullClarkCurve(ControllPoints& cp){
     }
 }
 
+//--------------------------------------------------------
+// Catmull rom
+//--------------------------------------------------------
+void testCatmullRomCurve(ControllPoints& cp) {
+    cout<<endl<<"[ Testing Catmull-Rom Curve ]"<<endl;
+    
+    CatmullRomSpline cr(cp);
+    
+    //Print 1 segment
+    cout<<endl<<"calculation tests "<<endl;
+    for(int it = 0; it<=10; it++){
+        float t = (float)it/10.0;
+        cout<<"t="<<t<<" ->";
+        
+        auto r = cr.r(t, 2);
+        cout<<"("<<r.x<<";"<<r.y<<") "<<endl;
+    }
+}
+
 int main(int argc, char **argv) {
     
     testVector2D();
@@ -216,6 +235,7 @@ int main(int argc, char **argv) {
     testBrezierCurve(cntrPnts);
     testConvexHull(cntrPnts);
     testCatmullClarkCurve(cntrPnts);
+    testCatmullRomCurve(cntrPnts);
     
     if(errorcount)
         cout<<endl<<errorcount<<" ERROR(S) - TEST FAILED!"<<endl;

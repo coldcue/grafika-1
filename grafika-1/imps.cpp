@@ -249,16 +249,28 @@ public:
 //--------------------------------------------------------
 // Catmull-Rom spline
 //--------------------------------------------------------
-class CatmullRomSpline : public Curve {
-    float M(int k, float t){
-        return 0;
-    }
+class CatmullRomSpline {
+    ControllPoints *cp;
     
+    float B(int i,float t) {
+        switch (i) {
+            case 0:
+                return powf(1-t,3) / 6;
+            case 1:
+                return (1 + 3*(1-t) + 3*t*powf(1-t,2)) / 6;
+            case 2:
+                return (1 + 3*t + 3*(1-t)*powf(t,2)) / 6;
+            default:
+                return powf(t,3) / 6;
+        }
+    }
 public:
-    Vector2D r(float t) {
+    CatmullRomSpline(ControllPoints &cp): cp(&cp) {};
+    
+    Vector2D r(float t, int sg) {
         Vector2D r;
-        for(int i = 0; i < cp->size; i++)
-            r += cp->points[i].vectorFromOrigo() * M(i,t);
+        for(int i = sg-2; i <= sg+1; i++)
+            r += cp->points[i].vectorFromOrigo() * B(i,t);
         return r;
     }
 };

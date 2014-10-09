@@ -175,6 +175,24 @@ void onDisplay( ) {
         } glEnd();
     }
     
+    // Catmull-Rom spline
+    {
+        //Zold
+        glColor3f(0.0f, 1.0f, 0.0f);
+        
+        CatmullRomSpline cr(cp);
+        
+        glBegin(GL_LINE_STRIP); {
+            for (int i = 2; i < cp.size-2; i++) {
+                for (int i = 0; i < CURVE_RESOLUTION; i++) {
+                    float t = (float)i/(float)CURVE_RESOLUTION;
+                    auto p = Point2D(cr.r(t, i)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                    glVertex2f(p.x,p.y);
+                }
+            }
+        } glEnd();
+    }
+    
     //  Draw control points (most priority)
     {
         //Fekete
@@ -183,7 +201,7 @@ void onDisplay( ) {
         for (int i = 0; i<cp.size; i++) {
             auto center = cp.points[i];
             
-            glBegin(GL_LINE_STRIP); {
+            glBegin(GL_TRIANGLE_FAN); {
                 for (int j = 0; j <= CIRCLE_RESOLUTION; j++) {
                     float angle = (float)j / CIRCLE_RESOLUTION * 2.0f * M_PI;
                     auto p = Point2D(center.x + CONTROL_POINT_R * cosf(angle), center.y + CONTROL_POINT_R * sinf(angle));
