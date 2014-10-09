@@ -129,7 +129,9 @@ struct Point2D {
 //--------------------------------------------------------
 struct ControllPoints {
     Point2D points[MAX_CONTROLL_POINTS];
-    int size = 0;
+    int size;
+    
+    ControllPoints(): size(0) {}
     
     bool add(Point2D p){
         //Max 10
@@ -186,9 +188,9 @@ class ConvexHull {
     }
 public:
     Point2D hull[2*MAX_CONTROLL_POINTS];
-    int size = 0;
+    int size;
     
-    ConvexHull(ControllPoints *cp): cp(cp) {}
+    ConvexHull(ControllPoints *cp): cp(cp), size(0) {}
     
     void calcHull(){
         int n = cp->size, k = 0;
@@ -263,7 +265,7 @@ class CatmullClarkCurve {
         //Move original points
         for (int i = 1; i < size-1; i++) {
             //avg of 2 middle points
-            auto avg = middlePoints[i-1].average(middlePoints[i]);
+            Point2D avg = middlePoints[i-1].average(middlePoints[i]);
             
             points[i] = Point2D((2*avg.x + points[i].x)/3, (2*avg.y + points[i].y)/3);
         }
@@ -286,9 +288,9 @@ class CatmullClarkCurve {
     }
 public:
     Point2D points[MAX_SUBDIVISION_POINTS];
-    int size = 0;
+    int size;
     
-    CatmullClarkCurve(ControllPoints *cp): cp(cp) {}
+    CatmullClarkCurve(ControllPoints *cp): cp(cp), size(0) {}
     
     void calcPoints(int subdivisions) {
         subdivisions = (subdivisions > MAX_SUBDIVISION_ITERATIONS) ? MAX_SUBDIVISION_ITERATIONS : subdivisions;

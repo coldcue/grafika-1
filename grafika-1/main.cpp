@@ -90,8 +90,8 @@ bool centerPointSelected = false;
 int centerPointNum;
 
 //Translation vectors
-auto tranVect = Vector2D(screenWidthf/cameraWidthf, screenHeightf/cameraHeightf);
-auto tranVectBack = Vector2D(cameraWidthf/screenWidthf, cameraHeightf/screenHeightf);
+Vector2D tranVect = Vector2D(screenWidthf/cameraWidthf, screenHeightf/cameraHeightf);
+Vector2D tranVectBack = Vector2D(cameraWidthf/screenWidthf, cameraHeightf/screenHeightf);
 
 
 // Inicializacio, a program futasanak kezdeten, az OpenGL kontextus letrehozasa utan hivodik meg (ld. main() fv.)
@@ -105,7 +105,7 @@ void onDisplay( ) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // kepernyo torles
     
     //Control points
-    auto cp = cntrPts;
+    ControllPoints cp = cntrPts;
     
     // Calculate control point rotation
     if (rotateCntrPts) {
@@ -119,8 +119,8 @@ void onDisplay( ) {
     lastCntrPts = cp;
     
     // Center point
-    auto centerPoint = (centerPointSelected) ? cp.points[centerPointNum] : Point2D(cameraWidthf/2.0f, cameraHeightf/2.0f);
-    auto centerVector = centerPoint.move(Vector2D(-cameraWidthf/2.0f, -cameraHeightf/2.0f)).vectorFromOrigo();
+    Point2D centerPoint = (centerPointSelected) ? cp.points[centerPointNum] : Point2D(cameraWidthf/2.0f, cameraHeightf/2.0f);
+    Vector2D centerVector = centerPoint.move(Vector2D(-cameraWidthf/2.0f, -cameraHeightf/2.0f)).vectorFromOrigo();
     lastCntrVector = centerVector;
     
     // Convex hull
@@ -133,7 +133,7 @@ void onDisplay( ) {
         
         glBegin(GL_TRIANGLE_FAN); {
             for (int i = 0; i < ch.size; i++) {
-                auto p = ch.hull[i].move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                Point2D p = ch.hull[i].move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                 glVertex2f(p.x, p.y);
             }
         } glEnd();
@@ -149,7 +149,7 @@ void onDisplay( ) {
         glBegin(GL_LINE_STRIP); {
             for (int i = 0; i < CURVE_RESOLUTION; i++) {
                 float t = (float)i/(float)CURVE_RESOLUTION;
-                auto p = Point2D(bc.r(t)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                Point2D p = Point2D(bc.r(t)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                 glVertex2f(p.x,p.y);
             }
         } glEnd();
@@ -165,7 +165,7 @@ void onDisplay( ) {
         
         glBegin(GL_LINE_STRIP); {
             for (int i = 0; i < cc.size; i++) {
-                auto p = cc.points[i].move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                Point2D p = cc.points[i].move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                 glVertex2f(p.x,p.y);
             }
         } glEnd();
@@ -182,7 +182,7 @@ void onDisplay( ) {
             for (int i = 2; i < cp.size-2; i++) {
                 for (int i = 0; i < CURVE_RESOLUTION; i++) {
                     float t = (float)i/(float)CURVE_RESOLUTION;
-                    auto p = Point2D(cr.r(t, i)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                    Point2D p = Point2D(cr.r(t, i)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                     glVertex2f(p.x,p.y);
                 }
             }
@@ -195,12 +195,12 @@ void onDisplay( ) {
         glColor3f(0.0f, 0.0f, 0.0f);
         
         for (int i = 0; i<cp.size; i++) {
-            auto center = cp.points[i];
+            Point2D center = cp.points[i];
             
             glBegin(GL_TRIANGLE_FAN); {
                 for (int j = 0; j <= CIRCLE_RESOLUTION; j++) {
                     float angle = (float)j / CIRCLE_RESOLUTION * 2.0f * M_PI;
-                    auto p = Point2D(center.x + CONTROL_POINT_R * cosf(angle), center.y + CONTROL_POINT_R * sinf(angle));
+                    Point2D p = Point2D(center.x + CONTROL_POINT_R * cosf(angle), center.y + CONTROL_POINT_R * sinf(angle));
                     
                     //Move, Translate and convert ot GL coordinates
                     p = p.move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
@@ -233,7 +233,7 @@ void onMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
         if(rotateCntrPts)
         {
-            auto p = (Point2D(x, y) + tranVectBack).move(lastCntrVector);
+            Point2D p = (Point2D(x, y) + tranVectBack).move(lastCntrVector);
             for (int i = 0; i < lastCntrPts.size; i++) {
                 if (lastCntrPts.points[i].dist(p) <= CONTROL_POINT_R) {
                     centerPointNum = i;
