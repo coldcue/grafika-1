@@ -19,7 +19,10 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 const int MAX_CONTROLL_POINTS = 10;
-const int MAX_SUBDIVISION_POINTS = 100000;
+const int MAX_SUBDIVISION_ITERATIONS = 5;
+
+//2^(k-1) * (2n-1) - (k-1) : n = MAX_CONTROLL_POINRS, k = iterations
+const int MAX_SUBDIVISION_POINTS = 300;
 
 //--------------------------------------------------------
 // 2D Vektor
@@ -121,29 +124,6 @@ struct Point2D {
     }
 };
 
-//--------------------------------------------------------
-// Spektrum illetve szin
-//--------------------------------------------------------
-struct Color {
-    float r, g, b;
-    
-    Color( ) {
-        r = g = b = 0;
-    }
-    
-    Color(float r0, float g0, float b0) {
-        r = r0; g = g0; b = b0;
-    }
-    Color operator*(float a) {
-        return Color(r * a, g * a, b * a);
-    }
-    Color operator*(const Color& c) {
-        return Color(r * c.r, g * c.g, b * c.b);
-    }
-    Color operator+(const Color& c) {
-        return Color(r + c.r, g + c.g, b + c.b);
-    }
-};
 //--------------------------------------------------------
 // ControllPoints
 //--------------------------------------------------------

@@ -79,9 +79,6 @@ const float screenHeightf = 600.0f;
 const float cameraWidthf = 58.0f;
 const float cameraHeightf = 68.0f;
 
-
-Color image[screenWidth*screenHeight];	// egy alkalmazás ablaknyi kép
-
 //ControllPoints
 ControllPoints cntrPts;
 ControllPoints lastCntrPts;
@@ -165,7 +162,7 @@ void onDisplay( ) {
         glColor3f(0.0f, 0.0f, 1.0f);
         
         CatmullClarkCurve cc(&cp);
-        cc.calcPoints(7);
+        cc.calcPoints(MAX_SUBDIVISION_ITERATIONS);
         
         glBegin(GL_LINE_STRIP); {
             for (int i = 0; i < cc.size; i++) {
@@ -178,7 +175,7 @@ void onDisplay( ) {
     // Catmull-Rom spline
     {
         //Zold
-        glColor3f(0.0f, 1.0f, 0.0f);
+        glColor3f(0.0f, 0.7f, 0.0f);
         
         CatmullRomSpline cr(cp);
         
