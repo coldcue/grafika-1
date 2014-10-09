@@ -197,7 +197,7 @@ class BrezierCurve : public Curve {
     
 public:
     Vector2D r(float t) {
-        Vector2D r = Vector2D();
+        Vector2D r;
         for(int i = 0; i < cp->size; i++)
             r += cp->points[i].vectorFromOrigo() * B(i,t);
         return r;
@@ -256,7 +256,7 @@ class CatmullRomSpline : public Curve {
     
 public:
     Vector2D r(float t) {
-        Vector2D r = Vector2D();
+        Vector2D r;
         for(int i = 0; i < cp->size; i++)
             r += cp->points[i].vectorFromOrigo() * M(i,t);
         return r;

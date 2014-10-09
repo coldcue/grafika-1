@@ -98,7 +98,7 @@ void testPoint2D() {
 //--------------------------------------------------------
 ControllPoints testControllPoints(){
     cout<<endl<<"[ Testing ControllPoints ]"<<endl;
-    ControllPoints cp = ControllPoints();
+    ControllPoints cp;
     
     cp.add(Point2D(1,2));
     cout<<"add ";
@@ -120,7 +120,7 @@ ControllPoints testControllPoints(){
 void testBrezierCurve(ControllPoints& cp) {
     cout<<endl<<"[ Testing Brezier curve ]"<<endl;
     
-    BrezierCurve bc = BrezierCurve();
+    BrezierCurve bc;
     bc.setControllPoints(&cp);
     
     cout<<"nck ";
@@ -161,7 +161,7 @@ void testBrezierCurve(ControllPoints& cp) {
 void testConvexHull(ControllPoints& cp) {
     cout<<endl<<"[ Testing Convex hull ]"<<endl;
     
-    auto ch = ConvexHull(&cp);
+    ConvexHull ch(&cp);
     ch.calcHull();
     
     for(int i = 0; i < ch.size; i++) {
@@ -193,18 +193,18 @@ void testConvexHull(ControllPoints& cp) {
 void testCatmullClarkCurve(ControllPoints& cp){
     cout<<endl<<"[ Testing Catmull-Clark Curve ]"<<endl;
     
-    auto ck = CatmullClarkCurve(&cp);
-    ck.calcPoints(1);
+    CatmullClarkCurve cc(&cp);
+    cc.calcPoints(1);
     
-    for(int i = 0; i < ck.size; i++) {
-        cout<<"("<<ck.points[i].x<<";"<<ck.points[i].y<<") "<<endl;
+    for(int i = 0; i < cc.size; i++) {
+        cout<<"("<<cc.points[i].x<<";"<<cc.points[i].y<<") "<<endl;
     }
     
-    ck = CatmullClarkCurve(&cp);
-    ck.calcPoints(2);
+    cc = CatmullClarkCurve(&cp);
+    cc.calcPoints(2);
     
-    for(int i = 0; i < ck.size; i++) {
-        cout<<"("<<ck.points[i].x<<";"<<ck.points[i].y<<") "<<endl;
+    for(int i = 0; i < cc.size; i++) {
+        cout<<"("<<cc.points[i].x<<";"<<cc.points[i].y<<") "<<endl;
     }
 }
 
@@ -212,7 +212,7 @@ int main(int argc, char **argv) {
     
     testVector2D();
     testPoint2D();
-    ControllPoints cntrPnts = testControllPoints();
+    auto cntrPnts = testControllPoints();
     testBrezierCurve(cntrPnts);
     testConvexHull(cntrPnts);
     testCatmullClarkCurve(cntrPnts);

@@ -83,7 +83,7 @@ const float cameraHeightf = 68.0f;
 Color image[screenWidth*screenHeight];	// egy alkalmazás ablaknyi kép
 
 //ControllPoints
-auto cntrPts = ControllPoints();
+ControllPoints cntrPts;
 ControllPoints lastCntrPts;
 Vector2D lastCntrVector;
 bool rotateCntrPts = false;
@@ -131,7 +131,7 @@ void onDisplay( ) {
         //Turkiz
         glColor3f(0.2549f, 0.8980f, 0.9686f);
         
-        auto ch = ConvexHull(&cp);
+        ConvexHull ch(&cp);
         ch.calcHull();
         
         glBegin(GL_TRIANGLE_FAN); {
@@ -147,7 +147,7 @@ void onDisplay( ) {
         //Piros
         glColor3f(1.0f, 0.0f, 0.0f);
         
-        auto bc = BrezierCurve();
+        BrezierCurve bc;
         bc.setControllPoints(&cp);
         
         glBegin(GL_LINE_STRIP); {
@@ -164,8 +164,8 @@ void onDisplay( ) {
         //Kek
         glColor3f(0.0f, 0.0f, 1.0f);
         
-        CatmullClarkCurve cc = CatmullClarkCurve(&cp);
-        cc.calcPoints(3);
+        CatmullClarkCurve cc(&cp);
+        cc.calcPoints(7);
         
         glBegin(GL_LINE_STRIP); {
             for (int i = 0; i < cc.size; i++) {
