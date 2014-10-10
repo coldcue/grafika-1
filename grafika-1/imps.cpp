@@ -225,7 +225,7 @@ class CatmullRomSpline {
     ControllPoints *cp;
     
     Vector2D v(int i) {
-        return Vector2D(5,5);
+        return Vector2D(i,i);
     }
 public:
     CatmullRomSpline(ControllPoints &cp): cp(&cp) {};
@@ -242,7 +242,8 @@ public:
         Vector2D a2 = (p2-p1) * 3 * (1/((t2-t1) * (t2-t1))) - (v(i+1) + v(i) * 2) * (1/(t2 - t1));
         Vector2D a3 = (p1-p2) * 2 * (1/((t2-t1) * (t2-t1) * (t2-t1))) + (v(i+1) + v(i)) * (1/((t2 - t1) * (t2 - t1)));
         
-        return (a3 * ((t-t1)*(t-t1)*(t-t1)) + a2 * ((t-t1)*(t-t1)) + a1 * (t-t1) + a0);
+        Vector2D r =(a3 * ((t-t1)*(t-t1)*(t-t1)) + a2 * ((t-t1)*(t-t1)) + a1 * (t-t1) + a0);
+        return r;
     }
 };
 
