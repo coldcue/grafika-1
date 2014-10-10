@@ -131,7 +131,7 @@ void onDisplay( ) {
         ConvexHull ch(&cp);
         ch.calcHull();
         
-        glBegin(GL_TRIANGLE_FAN); {
+        glBegin(GL_POLYGON); {
             for (int i = 0; i < ch.size; i++) {
                 Point2D p = ch.hull[i].move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                 glVertex2f(p.x, p.y);
@@ -179,8 +179,8 @@ void onDisplay( ) {
         CatmullRomSpline cr(cp);
         
         glBegin(GL_LINE_STRIP); {
-            for (int i = 2; i < cp.size-2; i++) {
-                for (int i = 0; i < CURVE_RESOLUTION; i++) {
+            for (int i = 0; i < cp.size; i++) {
+                for (int k = 0; k < CURVE_RESOLUTION; k++) {
                     float t = (float)i/(float)CURVE_RESOLUTION;
                     Point2D p = Point2D(cr.r(t, i)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
                     glVertex2f(p.x,p.y);
@@ -197,7 +197,7 @@ void onDisplay( ) {
         for (int i = 0; i<cp.size; i++) {
             Point2D center = cp.points[i];
             
-            glBegin(GL_TRIANGLE_FAN); {
+            glBegin(GL_POLYGON); {
                 for (int j = 0; j <= CIRCLE_RESOLUTION; j++) {
                     float angle = (float)j / CIRCLE_RESOLUTION * 2.0f * M_PI;
                     Point2D p = Point2D(center.x + CONTROL_POINT_R * cosf(angle), center.y + CONTROL_POINT_R * sinf(angle));

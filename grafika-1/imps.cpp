@@ -224,26 +224,25 @@ public:
 class CatmullRomSpline {
     ControllPoints *cp;
     
-    float B(int i,float t) {
-        switch (i) {
-            case 0:
-                return powf(1-t,3) / 6;
-            case 1:
-                return (1 + 3*(1-t) + 3*t*powf(1-t,2)) / 6;
-            case 2:
-                return (1 + 3*t + 3*(1-t)*powf(t,2)) / 6;
-            default:
-                return powf(t,3) / 6;
-        }
+    Vector2D v(int i) {
+        return Vector2D(5,5);
     }
 public:
     CatmullRomSpline(ControllPoints &cp): cp(&cp) {};
     
-    Vector2D r(float t, int sg) {
-        Vector2D r;
-        for(int i = sg-2; i <= sg+1; i++)
-            r += cp->points[i].vectorFromOrigo() * B(i,t);
-        return r;
+    Vector2D r(float t, int i) {
+        float t1 = 0.0f;
+        float t2 = 1.0f;
+        
+        Point2D p1 = cp->points[i];
+        Point2D p2 = cp->points[i+1];
+        
+        Vector2D a0 = p1.vectorFromOrigo();
+        Vector2D a1 = v(i);
+        Vector2D a2 = (p2-p1) * 3 * (1/((t2-t1) * (t2-t1))) - (v(i+1) + v(i) * 2) * (1/(t2 - t1));
+        Vector2D a3 = (p1-p2) * 2 * (1/((t2-t1) * (t2-t1) * (t2-t1))) + (v(i+1) + v(i)) * (1/((t2 - t1) * (t2 - t1)));
+        
+        return (a3 * ((t-t1)*(t-t1)*(t-t1)) + a2 * ((t-t1)*(t-t1)) + a1 * (t-t1) + a0);
     }
 };
 
