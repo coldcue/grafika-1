@@ -93,6 +93,8 @@ int centerPointNum;
 Vector2D tranVect = Vector2D(screenWidthf/cameraWidthf, screenHeightf/cameraHeightf);
 Vector2D tranVectBack = Vector2D(cameraWidthf/screenWidthf, cameraHeightf/screenHeightf);
 
+Vector2D centerVector;
+
 
 // Inicializacio, a program futasanak kezdeten, az OpenGL kontextus letrehozasa utan hivodik meg (ld. main() fv.)
 void onInitialization( ) {
@@ -120,7 +122,7 @@ void onDisplay( ) {
     
     // Center point
     Point2D centerPoint = (centerPointSelected) ? cp.points[centerPointNum] : Point2D(cameraWidthf/2.0f, cameraHeightf/2.0f);
-    Vector2D centerVector = centerPoint.move(Vector2D(-cameraWidthf/2.0f, -cameraHeightf/2.0f)).vectorFromOrigo();
+    centerVector = centerPoint.move(Vector2D(-cameraWidthf/2.0f, -cameraHeightf/2.0f)).vectorFromOrigo();
     lastCntrVector = centerVector;
     
     // Convex hull
@@ -231,20 +233,18 @@ void onKeyboardUp(unsigned char key, int x, int y) {
 // Eger esemenyeket lekezelo fuggveny
 void onMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
-        if(rotateCntrPts)
-        {
-            Point2D p = (Point2D(x, y) + tranVectBack).move(lastCntrVector);
-            for (int i = 0; i < lastCntrPts.size; i++) {
-                if (lastCntrPts.points[i].dist(p) <= CONTROL_POINT_R) {
-                    centerPointNum = i;
-                    centerPointSelected = true;
-                }
+        cntrPts.add((Point2D(x, y) + tranVectBack).move(centerVector));
+        glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
+    }
+    if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
+        Point2D p = (Point2D(x, y) + tranVectBack).move(lastCntrVector);
+        for (int i = 0; i < lastCntrPts.size; i++) {
+            if (lastCntrPts.points[i].dist(p) <= CONTROL_POINT_R) {
+                centerPointNum = i;
+                centerPointSelected = true;
             }
         }
-        else {
-            cntrPts.add(Point2D(x, y) + tranVectBack);
-            glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
-        }
+        glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
     }
 }
 
