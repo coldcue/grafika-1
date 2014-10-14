@@ -225,7 +225,7 @@ class CatmullRomSpline {
     ControllPoints *cp;
     
     Vector2D v(int i) {
-        return Vector2D(i,i);
+        return Vector2D(5,5);
     }
 public:
     CatmullRomSpline(ControllPoints &cp): cp(&cp) {};
@@ -237,10 +237,13 @@ public:
         Point2D p1 = cp->points[i];
         Point2D p2 = cp->points[i+1];
         
+        Vector2D v1 = v(i);
+        Vector2D v2 = v(i+1);
+        
         Vector2D a0 = p1.vectorFromOrigo();
-        Vector2D a1 = v(i);
-        Vector2D a2 = (p2-p1) * 3 * (1/((t2-t1) * (t2-t1))) - (v(i+1) + v(i) * 2) * (1/(t2 - t1));
-        Vector2D a3 = (p1-p2) * 2 * (1/((t2-t1) * (t2-t1) * (t2-t1))) + (v(i+1) + v(i)) * (1/((t2 - t1) * (t2 - t1)));
+        Vector2D a1 = v1;
+        Vector2D a2 = (p2-p1) * 3 * (1/((t2-t1) * (t2-t1))) - (v2 + v1 * 2) * (1/(t2 - t1));
+        Vector2D a3 = (p1-p2) * 2 * (1/((t2-t1) * (t2-t1) * (t2-t1))) + (v2 + v1) * (1/((t2 - t1) * (t2 - t1)));
         
         Vector2D r =(a3 * ((t-t1)*(t-t1)*(t-t1)) + a2 * ((t-t1)*(t-t1)) + a1 * (t-t1) + a0);
         return r;
@@ -253,9 +256,11 @@ public:
 class CatmullClarkCurve {
     ControllPoints* cp;
     
-    void subdivision() {
+    void subdivision(int level) {
         Point2D middlePoints[MAX_SUBDIVISION_POINTS];
         Point2D newPoints[MAX_SUBDIVISION_POINTS];
+        
+        float weight = 1/pow(2.0f, (float)level+1.0f);
         
         //Calculate middle points
         for (int i = 0; i < size-1; i++) {
@@ -267,7 +272,7 @@ class CatmullClarkCurve {
             //avg of 2 middle points
             Point2D avg = middlePoints[i-1].average(middlePoints[i]);
             
-            points[i] = Point2D((avg.x + points[i].x)/2, (avg.y + points[i].y)/2);
+            points[i] = Point2D(( avg.x +  weight * points[i].x)/(1.0f+weight), ( avg.y +  weight * points[i].y)/(1.0f+weight));
         }
         
         //Add middle points between original points
@@ -301,7 +306,7 @@ public:
         }
         size = cp->size;
         for(int i = 0; i < subdivisions; i++) {
-            subdivision();
+            subdivision(i);
         }
     }
 };
