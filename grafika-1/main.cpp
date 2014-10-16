@@ -63,7 +63,7 @@
 // Innentol modosithatod...
 
 const int CIRCLE_RESOLUTION = 50;
-const int CURVE_RESOLUTION = 30;
+const int CURVE_RESOLUTION = 80;
 const int ROTATE_INTERVAL = 5 * 1000;
 const float CONTROL_POINT_R = 2.0f;
 const float CONTROL_POINT_ROTATE_R = 5.0f;
