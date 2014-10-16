@@ -57,6 +57,10 @@ struct Vector2D {
     Vector2D operator*(const float a) {
         return Vector2D(x*a,y*a);
     }
+    //Skalar szorzat
+    Vector2D operator/(const float a) {
+        return Vector2D(x/a,y/a);
+    }
     
     float abs() { return sqrtf(x * x + y * y); }
 };
@@ -129,16 +133,23 @@ struct Point2D {
 //--------------------------------------------------------
 struct ControllPoints {
     Point2D points[MAX_CONTROLL_POINTS];
+    float pointTimes[MAX_CONTROLL_POINTS];
     int size;
     
     ControllPoints(): size(0) {}
     
-    bool add(Point2D p){
+    bool add(Point2D p, float t){
         //Max 10
         if(size>=MAX_CONTROLL_POINTS)
             return false;
-        points[size++] = p;
+        points[size] = p;
+        pointTimes[size] = t;
+        size++;
         return true;
+    }
+    
+    float t(int i) {
+        return pointTimes[i] - pointTimes[0];
     }
 };
 
@@ -224,28 +235,48 @@ public:
 class CatmullRomSpline {
     ControllPoints *cp;
     
-    Vector2D v(int i) {
-        return Vector2D(5,5);
+    Vector2D v(int i)  {
+        Point2D p1 = cp->points[i];
+        Point2D p2 = cp->points[i+1];
+        
+        float t1 = cp->t(i);
+        float t2 = cp->t(i+1);
+        
+        return ((p2 - p1) / (t2-t1) + (p1-p2) / (t1-t2)) * 0.5f;
     }
+    
+    int index(float t) {
+        for (int i = 0; i < cp->size - 1; i++) {
+            if(cp->t(i+1) > t)
+                return i;
+        }
+        return cp->size - 1;
+    }
+    
 public:
     CatmullRomSpline(ControllPoints &cp): cp(&cp) {};
     
-    Vector2D r(float t, int i) {
-        float t1 = 0.0f;
-        float t2 = 1.0f;
+    Vector2D r(float t) {
+        int i = index(t);
+        if(i == cp->size - 1){
+            return cp->points[i].vectorFromOrigo();
+        }
         
         Point2D p1 = cp->points[i];
         Point2D p2 = cp->points[i+1];
+        
+        float t1 = cp->t(i);
+        float t2 = cp->t(i+1);
         
         Vector2D v1 = v(i);
         Vector2D v2 = v(i+1);
         
         Vector2D a0 = p1.vectorFromOrigo();
         Vector2D a1 = v1;
-        Vector2D a2 = (p2-p1) * 3 * (1/((t2-t1) * (t2-t1))) - (v2 + v1 * 2) * (1/(t2 - t1));
-        Vector2D a3 = (p1-p2) * 2 * (1/((t2-t1) * (t2-t1) * (t2-t1))) + (v2 + v1) * (1/((t2 - t1) * (t2 - t1)));
+        Vector2D a2 = ((p2-p1) * 3.0f) / ((t2-t1) * (t2-t1)) - ((v2 + v1 * 2.0f) / (t2 - t1));
+        Vector2D a3 = ((p1-p2) * 2.0f) / ((t2-t1) * (t2-t1) * (t2-t1)) + ((v2 + v1) / ((t2 - t1) * (t2 - t1)));
         
-        Vector2D r =(a3 * ((t-t1)*(t-t1)*(t-t1)) + a2 * ((t-t1)*(t-t1)) + a1 * (t-t1) + a0);
+        Vector2D r = a3 * ((t-t1)*(t-t1)*(t-t1)) + a2 * ((t-t1)*(t-t1)) + a1 * (t-t1) + a0;
         return r;
     }
 };

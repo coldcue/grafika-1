@@ -100,13 +100,13 @@ ControllPoints testControllPoints(){
     cout<<endl<<"[ Testing ControllPoints ]"<<endl;
     ControllPoints cp;
     
-    cp.add(Point2D(1,2));
+    cp.add(Point2D(1,2), (float)500 / 1000.0f);
     cout<<"add ";
     assert(cp.points[0].dist(Point2D(1,2))==0);
-    cp.add(Point2D(3,5));
-    cp.add(Point2D(7,11));
-    cp.add(Point2D(-3,6));
-    cp.add(Point2D(-7,5));
+    cp.add(Point2D(3,5),(float)1600 / 1000.0f);
+    cp.add(Point2D(7,11), (float)2750 / 1000.0f);
+    cp.add(Point2D(-3,6), (float)3800 / 1000.0f);
+    cp.add(Point2D(-7,5), (float)4920 / 1000.0f);
     
     cout<<"size ";
     assert(cp.size==5);
@@ -215,13 +215,12 @@ void testCatmullRomCurve(ControllPoints& cp) {
     
     CatmullRomSpline cr(cp);
     
-    //Print 1 segment
     cout<<endl<<"calculation tests "<<endl;
-    for(int it = 0; it<=10; it++){
+    for(int it = 0; it <= (int)floorf(10 * cp.t(cp.size-1)); it++){
         float t = (float)it/10.0;
         cout<<"t="<<t<<" ->";
         
-        auto r = cr.r(t, 2);
+        auto r = cr.r(t);
         cout<<"("<<r.x<<";"<<r.y<<") "<<endl;
     }
 }

@@ -62,8 +62,8 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Innentol modosithatod...
 
-const int CIRCLE_RESOLUTION = 100;
-const int CURVE_RESOLUTION = 1000;
+const int CIRCLE_RESOLUTION = 50;
+const int CURVE_RESOLUTION = 80;
 const int ROTATE_INTERVAL = 5 * 1000;
 const float CONTROL_POINT_R = 2.0f;
 const float CONTROL_POINT_ROTATE_R = 5.0f;
@@ -181,12 +181,10 @@ void onDisplay( ) {
         CatmullRomSpline cr(cp);
         
         glBegin(GL_LINE_STRIP); {
-            for (int i = 0; i < cp.size; i++) {
-                for (int k = 0; k < CURVE_RESOLUTION; k++) {
-                    float t = (float)i/(float)CURVE_RESOLUTION;
-                    Point2D p = Point2D(cr.r(t, i)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
-                    glVertex2f(p.x,p.y);
-                }
+            for(int it = 0; it <= (int)floorf(CURVE_RESOLUTION * cp.t(cp.size-1)); it++){
+                float t = (float)it / CURVE_RESOLUTION;
+                Point2D p = Point2D(cr.r(t)).move(centerVector * -1).toGlCoordinates(screenWidthf, screenHeightf, tranVect);
+                glVertex2f(p.x,p.y);
             }
         } glEnd();
     }
@@ -225,15 +223,10 @@ void onKeyboard(unsigned char key, int x, int y) {
     }
 }
 
-// Billentyuzet esemenyeket lekezelo fuggveny (felengedes)
-void onKeyboardUp(unsigned char key, int x, int y) {
-    
-}
-
 // Eger esemenyeket lekezelo fuggveny
 void onMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
-        cntrPts.add((Point2D(x, y) + tranVectBack).move(centerVector));
+        cntrPts.add((Point2D(x, y) + tranVectBack).move(centerVector), (float)glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
         glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
     }
     if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
@@ -246,12 +239,6 @@ void onMouse(int button, int state, int x, int y) {
         }
         glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
     }
-}
-
-// Eger mozgast lekezelo fuggveny
-void onMouseMotion(int x, int y)
-{
-    
 }
 
 // `Idle' esemenykezelo, jelzi, hogy az ido telik, az Idle esemenyek frekvenciajara csak a 0 a garantalt minimalis ertek
