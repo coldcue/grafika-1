@@ -63,7 +63,7 @@
 // Innentol modosithatod...
 
 const int CIRCLE_RESOLUTION = 50;
-const int CURVE_RESOLUTION = 80;
+const int CURVE_RESOLUTION = 30;
 const int ROTATE_INTERVAL = 5 * 1000;
 const float CONTROL_POINT_R = 2.0f;
 const float CONTROL_POINT_ROTATE_R = 5.0f;
@@ -223,6 +223,11 @@ void onKeyboard(unsigned char key, int x, int y) {
     }
 }
 
+// Billentyuzet esemenyeket lekezelo fuggveny (felengedes)
+void onKeyboardUp(unsigned char key, int x, int y) {
+    
+}
+
 // Eger esemenyeket lekezelo fuggveny
 void onMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
@@ -239,6 +244,12 @@ void onMouse(int button, int state, int x, int y) {
         }
         glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
     }
+}
+
+// Eger mozgast lekezelo fuggveny
+void onMouseMotion(int x, int y)
+{
+    
 }
 
 // `Idle' esemenykezelo, jelzi, hogy az ido telik, az Idle esemenyek frekvenciajara csak a 0 a garantalt minimalis ertek
