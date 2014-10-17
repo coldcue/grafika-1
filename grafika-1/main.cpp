@@ -230,7 +230,7 @@ void onKeyboardUp(unsigned char key, int x, int y) {
 
 // Eger esemenyeket lekezelo fuggveny
 void onMouse(int button, int state, int x, int y) {
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {   // A GLUT_LEFT_BUTTON / GLUT_RIGHT_BUTTON illetve GLUT_DOWN / GLUT_UP
         cntrPts.add((Point2D(x, y) + tranVectBack).move(centerVector), (float)glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
         glutPostRedisplay( ); // Ilyenkor rajzold ujra a kepet
     }
