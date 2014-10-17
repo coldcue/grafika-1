@@ -112,7 +112,7 @@ void onDisplay( ) {
     // Calculate control point rotation
     if (rotateCntrPts) {
         for (int i = 0; i < cp.size; i++) {
-            float angle = (i%2 == 0) ? (rotateT + 0.25f) * 2.0f * M_PI : (1.0f-(rotateT - 0.25f)) * 2.0f * M_PI;
+            float angle = (i%2 == 0) ? (1.0f-(rotateT - 0.25f)) * 2.0f * M_PI : (rotateT + 0.25f) * 2.0f * M_PI;
             cp.points[i] = Point2D(cp.points[i].x + CONTROL_POINT_ROTATE_R * cosf(angle), cp.points[i].y + CONTROL_POINT_ROTATE_R * (sinf(angle) - 1.0f));
         }
     }
