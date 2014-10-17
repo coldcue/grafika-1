@@ -291,8 +291,6 @@ class CatmullClarkCurve {
         Point2D middlePoints[MAX_SUBDIVISION_POINTS];
         Point2D newPoints[MAX_SUBDIVISION_POINTS];
         
-        float weight = 1/pow(2.0f, (float)level+1.0f);
-        
         //Calculate middle points
         for (int i = 0; i < size-1; i++) {
             middlePoints[i] = points[i].average(points[i+1]);
@@ -302,8 +300,7 @@ class CatmullClarkCurve {
         for (int i = 1; i < size-1; i++) {
             //avg of 2 middle points
             Point2D avg = middlePoints[i-1].average(middlePoints[i]);
-            
-            points[i] = Point2D(( avg.x +  weight * points[i].x)/(1.0f+weight), ( avg.y +  weight * points[i].y)/(1.0f+weight));
+            points[i] = Point2D(points[i].vectorFromOrigo() * 0.5f + avg.vectorFromOrigo() * 0.5f);
         }
         
         //Add middle points between original points
